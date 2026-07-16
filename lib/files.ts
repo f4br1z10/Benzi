@@ -2,7 +2,7 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import crypto from "node:crypto";
 
-export const workspaceRoot = process.cwd();
+export const workspaceRoot = path.resolve(process.env.GESTIONE_PREVENTIVI_DATA_DIR || process.cwd());
 export const storageRoot = path.resolve(workspaceRoot, "storage");
 
 export const storageDirectories = [

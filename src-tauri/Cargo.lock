@@ -95,14 +95,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
-name = "gestione-preventivi"
-version = "1.0.4"
-dependencies = [
- "tauri",
- "tauri-build",
-]
-
-[[package]]
 name = "bit-set"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -993,6 +985,14 @@ checksum = "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a"
 dependencies = [
  "typenum",
  "version_check",
+]
+
+[[package]]
+name = "gestione-preventivi"
+version = "1.0.5"
+dependencies = [
+ "tauri",
+ "tauri-build",
 ]
 
 [[package]]

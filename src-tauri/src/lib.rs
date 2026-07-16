@@ -127,10 +127,7 @@ pub fn run() {
                 .create(true)
                 .append(true)
                 .open(&log_path)?;
-            let server_entry = resource_dir
-                .join("resources")
-                .join("server")
-                .join("server.js");
+            let server_dir = resource_dir.join("resources").join("server");
             let mut command = Command::new(
                 resource_dir
                     .join("resources")
@@ -139,14 +136,14 @@ pub fn run() {
             );
             command
                 .arg("--eval")
-                .arg("require(process.env.GESTIONE_PREVENTIVI_SERVER_ENTRY)")
-                .current_dir(&data_dir)
+                .arg("require('./server.js')")
+                .current_dir(&server_dir)
                 .env("NODE_ENV", "production")
                 .env("HOSTNAME", "127.0.0.1")
                 .env("PORT", port.to_string())
                 .env("APP_URL", &url)
                 .env("DATABASE_URL", database_url)
-                .env("GESTIONE_PREVENTIVI_SERVER_ENTRY", server_entry)
+                .env("GESTIONE_PREVENTIVI_DATA_DIR", &data_dir)
                 .stdin(Stdio::null())
                 .stdout(Stdio::from(server_log.try_clone()?))
                 .stderr(Stdio::from(server_log));

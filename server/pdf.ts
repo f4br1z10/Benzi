@@ -3,7 +3,7 @@ import path from "node:path";
 import { chromium } from "playwright";
 import { PDFDocument } from "pdf-lib";
 import { prisma } from "@/server/prisma";
-import { ensureStorageDirectories, sanitizeFilename, storageRoot } from "@/lib/files";
+import { ensureStorageDirectories, sanitizeFilename, storageRoot, workspaceRoot } from "@/lib/files";
 import { customerDisplayName, formatCurrency, formatDate } from "@/lib/format";
 
 const escapeHtml = (value: unknown) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[character]!));
@@ -36,7 +36,7 @@ function chunks(items: any[]) {
 }
 
 async function logoData(pathValue?: string | null) {
-  if (!pathValue) return null; const absolute = path.isAbsolute(pathValue) ? pathValue : path.resolve(process.cwd(), pathValue);
+  if (!pathValue) return null; const absolute = path.isAbsolute(pathValue) ? pathValue : path.resolve(workspaceRoot, pathValue);
   try { const bytes = await fs.readFile(absolute); const ext = path.extname(absolute).slice(1).toLowerCase(); return `data:image/${ext === "jpg" ? "jpeg" : ext};base64,${bytes.toString("base64")}`; } catch { return null; }
 }
 
