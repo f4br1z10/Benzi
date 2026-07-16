@@ -1,6 +1,6 @@
 [package]
 name = "gestione-preventivi"
-version = "1.0.3"
+version = "1.0.4"
 description = "Gestionale desktop per preventivi"
 authors = ["Gestione Preventivi"]
 edition = "2021"
