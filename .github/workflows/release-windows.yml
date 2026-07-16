@@ -1,0 +1,92 @@
+name: Build e pubblica Benzxi per Windows
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows-release:
+    runs-on: windows-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Scarica il repository e i file LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Configura Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installa Rust stabile
+        shell: pwsh
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
+      - name: Installa dipendenze JavaScript e Chromium
+        shell: pwsh
+        run: |
+          npm ci
+          npx playwright install chromium
+
+      - name: Compila l'installer Tauri
+        shell: pwsh
+        run: npm run desktop:build
+
+      - name: Prepara i file della release
+        id: release_files
+        shell: pwsh
+        run: |
+          $releaseDir = Join-Path $PWD "release"
+          New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
+
+          $installer = Get-ChildItem "src-tauri/target/release/bundle/nsis" -Filter "*-setup.exe" -File | Select-Object -First 1
+          if (-not $installer) { throw "Installer NSIS non trovato." }
+          Copy-Item $installer.FullName (Join-Path $releaseDir "Benzxi-Setup-x64.exe")
+
+          @'
+          @echo off
+          setlocal
+          title Dipendenze Benzxi
+          echo Download e installazione delle dipendenze Benzxi...
+          powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $dir=Join-Path $env:TEMP 'Benzxi-Dependencies'; New-Item -ItemType Directory -Force -Path $dir ^| Out-Null; $vc=Join-Path $dir 'vc_redist.x64.exe'; $wv=Join-Path $dir 'MicrosoftEdgeWebview2Setup.exe'; Invoke-WebRequest 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile $vc; Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $wv; Start-Process $vc -ArgumentList '/install','/quiet','/norestart' -Wait; Start-Process $wv -ArgumentList '/silent','/install' -Wait; Write-Host 'Dipendenze installate correttamente.' -ForegroundColor Green"
+          if errorlevel 1 (
+            echo Installazione non completata. Avviare questo file come amministratore.
+            pause
+            exit /b 1
+          )
+          echo Operazione completata.
+          pause
+          '@ | Set-Content (Join-Path $releaseDir "Installa-dipendenze.cmd") -Encoding Ascii
+
+          "installer=$releaseDir\Benzxi-Setup-x64.exe" >> $env:GITHUB_OUTPUT
+          "dependencies=$releaseDir\Installa-dipendenze.cmd" >> $env:GITHUB_OUTPUT
+
+      - name: Pubblica la GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" `
+            "${{ steps.release_files.outputs.installer }}" `
+            "${{ steps.release_files.outputs.dependencies }}" `
+            --repo "${{ github.repository }}" `
+            --title "Benzxi ${{ github.ref_name }}" `
+            --notes "Installer Windows self-contained di Benzxi. Eseguire prima Installa-dipendenze.cmd se WebView2 o il runtime Visual C++ non sono presenti."
+
+      - name: Conserva i file anche come artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Benzxi-Windows
+          path: release/*
+          if-no-files-found: error

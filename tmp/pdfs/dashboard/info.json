@@ -1,0 +1,56 @@
+{
+  "file": "..\\..\\docs\\Dashboard.pdf",
+  "pages": 10,
+  "dimensions": [
+    {
+      "page": 1,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 2,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 3,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 4,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 5,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 6,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 7,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 8,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 9,
+      "width": 960,
+      "height": 540
+    },
+    {
+      "page": 10,
+      "width": 960,
+      "height": 540
+    }
+  ]
+}

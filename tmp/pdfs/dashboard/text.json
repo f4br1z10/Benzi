@@ -1,0 +1,1717 @@
+[
+  {
+    "page": 1,
+    "rows": [
+      {
+        "text": "Dashboard",
+        "x": 362.62,
+        "y": 494.83,
+        "width": 234.73427999999998,
+        "height": 54.024
+      },
+      {
+        "text": "Tutti i preventivi",
+        "x": 31.128,
+        "y": 429.6,
+        "width": 122.21999999999997,
+        "height": 18
+      },
+      {
+        "text": "Filtra per data",
+        "x": 392.54,
+        "y": 429.6,
+        "width": 104.832,
+        "height": 18
+      },
+      {
+        "text": "Filtra per comune",
+        "x": 532.49,
+        "y": 429.6,
+        "width": 131.59799999999981,
+        "height": 18
+      },
+      {
+        "text": "Crea nuovo preventivo",
+        "x": 663.62,
+        "y": 73.848,
+        "width": 168.98399999999978,
+        "height": 18
+      },
+      {
+        "text": "Tutti i preventivi caldaia",
+        "x": 31.128,
+        "y": 380.71,
+        "width": 178.63199999999995,
+        "height": 18
+      },
+      {
+        "text": "Tutti i preventivi climatizzatori",
+        "x": 31.128,
+        "y": 329.09,
+        "width": 225.82269599999995,
+        "height": 18.024
+      },
+      {
+        "text": "Tutti i preventivi fotovoltaico",
+        "x": 31.128,
+        "y": 272.26,
+        "width": 215.83739999999995,
+        "height": 18.024
+      },
+      {
+        "text": "Tutti i preventivi pompe di calore",
+        "x": 31.128,
+        "y": 208.37,
+        "width": 246.31199999999998,
+        "height": 18
+      },
+      {
+        "text": "Tutti i preventivi",
+        "x": 31.128,
+        "y": 140.09,
+        "width": 122.21999999999997,
+        "height": 18
+      },
+      {
+        "text": "wallbox",
+        "x": 157.15,
+        "y": 140.09,
+        "width": 58.28399999999999,
+        "height": 18
+      },
+      {
+        "text": "Tutti i preventivi impiantistica",
+        "x": 31.128,
+        "y": 73.848,
+        "width": 222.08399999999995,
+        "height": 18
+      },
+      {
+        "text": "Conversione totale",
+        "x": 592.1,
+        "y": 356.93,
+        "width": 140.31000000000006,
+        "height": 18
+      },
+      {
+        "text": "Inserisci nuovo prodotto",
+        "x": 440.35,
+        "y": 73.848,
+        "width": 182.01599999999976,
+        "height": 18
+      },
+      {
+        "text": "Recupera clienti",
+        "x": 506.18,
+        "y": 272.26,
+        "width": 119.22876000000001,
+        "height": 18.024
+      },
+      {
+        "text": "A 5 giorni dalla scadenza del preventivo mi serve un",
+        "x": 670.85,
+        "y": 285.34,
+        "width": 230.86847999999966,
+        "height": 11.04
+      },
+      {
+        "text": "reminder",
+        "x": 670.85,
+        "y": 265.66,
+        "width": 41.620799999999946,
+        "height": 11.04
+      },
+      {
+        "text": "che mi permette di ricontattare il cliente.",
+        "x": 714.89,
+        "y": 265.66,
+        "width": 183.63935999999984,
+        "height": 11.04
+      }
+    ]
+  },
+  {
+    "page": 2,
+    "rows": [
+      {
+        "text": "Crea nuovo preventivo",
+        "x": 7.2,
+        "y": 491.11,
+        "width": 362.414976,
+        "height": 39.984
+      },
+      {
+        "text": "Crea nuovo prodotto",
+        "x": 567.4558079999999,
+        "y": 491.11,
+        "width": 333.78643200000005,
+        "height": 39.984
+      },
+      {
+        "text": "Nome e cognome",
+        "x": 30.6,
+        "y": 437.38,
+        "width": 131.364,
+        "height": 18
+      },
+      {
+        "text": "Indirizzo di installazione",
+        "x": 30.6,
+        "y": 396.84,
+        "width": 178.95599999999996,
+        "height": 18
+      },
+      {
+        "text": "Data preventivo",
+        "x": 30.6,
+        "y": 265.27,
+        "width": 119.95199999999998,
+        "height": 18
+      },
+      {
+        "text": "Scadenza preventivo",
+        "x": 30.6,
+        "y": 223.25,
+        "width": 153.702,
+        "height": 18
+      },
+      {
+        "text": "Prodotto",
+        "x": 30.6,
+        "y": 181.22,
+        "width": 66.78000000000002,
+        "height": 18
+      },
+      {
+        "text": "Indirizzo di residenza",
+        "x": 30.6,
+        "y": 353.64,
+        "width": 156.23999999999995,
+        "height": 18
+      },
+      {
+        "text": "Codice fiscale",
+        "x": 30.6,
+        "y": 308.88,
+        "width": 101.034,
+        "height": 18
+      },
+      {
+        "text": "Prodotto",
+        "x": 500.21,
+        "y": 315.36,
+        "width": 40.1083199999999,
+        "height": 11.04
+      },
+      {
+        "text": "Clima",
+        "x": 573.31,
+        "y": 455.16,
+        "width": 20.384999999999913,
+        "height": 9
+      },
+      {
+        "text": "→",
+        "x": 595.75,
+        "y": 455.16,
+        "width": 8.811000000000002,
+        "height": 9
+      },
+      {
+        "text": "monosplit",
+        "x": 606.67,
+        "y": 455.16,
+        "width": 36.719999999999985,
+        "height": 9
+      },
+      {
+        "text": "/ unità esterne multi / unità interne multi",
+        "x": 645.67,
+        "y": 455.16,
+        "width": 151.56000000000063,
+        "height": 9
+      },
+      {
+        "text": "→",
+        "x": 799.54,
+        "y": 455.16,
+        "width": 8.811000000000002,
+        "height": 9
+      },
+      {
+        "text": "Marca modello potenza",
+        "x": 810.46,
+        "y": 455.16,
+        "width": 86.81399999999995,
+        "height": 9
+      },
+      {
+        "text": "Caldaia",
+        "x": 573.31,
+        "y": 411.96,
+        "width": 26.53056,
+        "height": 9.024
+      },
+      {
+        "text": "→",
+        "x": 601.75,
+        "y": 411.96,
+        "width": 8.834496,
+        "height": 9.024
+      },
+      {
+        "text": "marca e modello",
+        "x": 612.67,
+        "y": 411.96,
+        "width": 61.029312000000104,
+        "height": 9.024
+      },
+      {
+        "text": "Fotovoltaico",
+        "x": 573.31,
+        "y": 357.94,
+        "width": 45.512999999999984,
+        "height": 9
+      },
+      {
+        "text": "→",
+        "x": 620.83,
+        "y": 357.94,
+        "width": 8.811000000000002,
+        "height": 9
+      },
+      {
+        "text": "Moduli, inverter, batteria",
+        "x": 631.63,
+        "y": 357.94,
+        "width": 92.96100000000015,
+        "height": 9
+      },
+      {
+        "text": "Pompa di calore",
+        "x": 573.31,
+        "y": 303.91,
+        "width": 59.06700000000015,
+        "height": 9
+      },
+      {
+        "text": "→",
+        "x": 634.27,
+        "y": 303.91,
+        "width": 8.811000000000002,
+        "height": 9
+      },
+      {
+        "text": "marca e modello potenza",
+        "x": 645.19,
+        "y": 303.91,
+        "width": 92.80800000000002,
+        "height": 9
+      },
+      {
+        "text": "Solare termico",
+        "x": 573.31,
+        "y": 239.11,
+        "width": 53.19900000000008,
+        "height": 9
+      },
+      {
+        "text": "→",
+        "x": 628.63,
+        "y": 239.11,
+        "width": 8.811000000000002,
+        "height": 9
+      },
+      {
+        "text": "Marca modello e capacità",
+        "x": 639.55,
+        "y": 239.11,
+        "width": 94.14899999999999,
+        "height": 9
+      },
+      {
+        "text": "Wallbox",
+        "x": 573.31,
+        "y": 174.29,
+        "width": 29.790000000000056,
+        "height": 9
+      },
+      {
+        "text": "→",
+        "x": 605.23,
+        "y": 174.29,
+        "width": 8.811000000000002,
+        "height": 9
+      },
+      {
+        "text": "Marca modello e potenza",
+        "x": 616.03,
+        "y": 174.29,
+        "width": 93.40199999999994,
+        "height": 9
+      },
+      {
+        "text": "Se possibile dentro ogni prodotto possibilità di caricare",
+        "x": 527.57,
+        "y": 132.24,
+        "width": 400.248,
+        "height": 18
+      },
+      {
+        "text": "PDF con scheda tecnica prodotto.",
+        "x": 527.57,
+        "y": 110.64,
+        "width": 244.5135840000001,
+        "height": 18.024
+      },
+      {
+        "text": "Se",
+        "x": 527.57,
+        "y": 89.016,
+        "width": 17.244000000000028,
+        "height": 18
+      },
+      {
+        "text": "possibile",
+        "x": 548.93,
+        "y": 89.016,
+        "width": 63.79200000000003,
+        "height": 18
+      },
+      {
+        "text": "caricare",
+        "x": 616.97,
+        "y": 89.016,
+        "width": 57.420000000000094,
+        "height": 18
+      },
+      {
+        "text": "il",
+        "x": 678.67,
+        "y": 89.016,
+        "width": 8.220000000000056,
+        "height": 18
+      },
+      {
+        "text": "costo",
+        "x": 691.03,
+        "y": 89.016,
+        "width": 39.13200000000007,
+        "height": 18
+      },
+      {
+        "text": "di",
+        "x": 734.23,
+        "y": 89.016,
+        "width": 13.619999999999974,
+        "height": 18
+      },
+      {
+        "text": "acquisto",
+        "x": 751.99,
+        "y": 89.016,
+        "width": 61.45199999999997,
+        "height": 18
+      },
+      {
+        "text": "Metodo di pagamento",
+        "x": 30.6,
+        "y": 132.24,
+        "width": 166.91399999999996,
+        "height": 18
+      },
+      {
+        "text": "Possibilità di acconto e saldo per tutti i prodotti superiori ai 2999€,",
+        "x": 30.6,
+        "y": 105.1,
+        "width": 296.9318399999999,
+        "height": 11.04
+      },
+      {
+        "text": "salvo diverso accordo tra le parti",
+        "x": 30.6,
+        "y": 91.896,
+        "width": 145.48511999999997,
+        "height": 11.04
+      },
+      {
+        "text": "Possibilità",
+        "x": 30.6,
+        "y": 78.696,
+        "width": 44.93279999999999,
+        "height": 11.04
+      },
+      {
+        "text": "di",
+        "x": 77.664,
+        "y": 78.696,
+        "width": 8.299199999999997,
+        "height": 11.04
+      },
+      {
+        "text": "finanziamento",
+        "x": 88.344,
+        "y": 78.696,
+        "width": 64.46256,
+        "height": 11.04
+      }
+    ]
+  },
+  {
+    "page": 3,
+    "rows": [
+      {
+        "text": "Crea un nuovo preventivo",
+        "x": 201.19,
+        "y": 494.83,
+        "width": 557.689752,
+        "height": 54.024
+      },
+      {
+        "text": "Prodotto",
+        "x": 51.048,
+        "y": 445.92,
+        "width": 66.65400000000001,
+        "height": 18
+      },
+      {
+        "text": "Clima",
+        "x": 51.048,
+        "y": 403.42,
+        "width": 40.769999999999996,
+        "height": 18
+      },
+      {
+        "text": "Caldaia",
+        "x": 51.048,
+        "y": 360.22,
+        "width": 53.188824,
+        "height": 18.024
+      },
+      {
+        "text": "Fotovoltaico",
+        "x": 51.048,
+        "y": 316.99,
+        "width": 89.76599999999999,
+        "height": 18
+      },
+      {
+        "text": "Pompa di calore",
+        "x": 51.048,
+        "y": 273.79,
+        "width": 117.33624000000002,
+        "height": 18.024
+      },
+      {
+        "text": "Solare termico",
+        "x": 51.048,
+        "y": 230.57,
+        "width": 106.07400000000003,
+        "height": 18
+      },
+      {
+        "text": "Wallbox",
+        "x": 51.048,
+        "y": 187.37,
+        "width": 58.536,
+        "height": 18
+      },
+      {
+        "text": "Tipo di climatizzatore",
+        "x": 487.27,
+        "y": 404.04,
+        "width": 158.8499999999997,
+        "height": 18
+      },
+      {
+        "text": "Monosplit",
+        "x": 480.48,
+        "y": 373.25,
+        "width": 74.53800000000003,
+        "height": 18
+      },
+      {
+        "text": "Dual Split",
+        "x": 480.48,
+        "y": 330.05,
+        "width": 69.37199999999999,
+        "height": 18
+      },
+      {
+        "text": "Trial split",
+        "x": 480.48,
+        "y": 286.85,
+        "width": 65.67945600000003,
+        "height": 18.024
+      },
+      {
+        "text": "Quadri Split",
+        "x": 480.48,
+        "y": 243.62,
+        "width": 86.14800000000005,
+        "height": 18
+      },
+      {
+        "text": "Penta Split",
+        "x": 480.48,
+        "y": 200.42,
+        "width": 77.70146400000014,
+        "height": 18.024
+      }
+    ]
+  },
+  {
+    "page": 4,
+    "rows": [
+      {
+        "text": "Gestionale",
+        "x": 364.66,
+        "y": 494.83,
+        "width": 230.790528,
+        "height": 54.024
+      },
+      {
+        "text": "Tipo di climatizzatore",
+        "x": 34.536,
+        "y": 429.19,
+        "width": 158.97167999999996,
+        "height": 18.024
+      },
+      {
+        "text": "Monosplit",
+        "x": 27.744,
+        "y": 398.4,
+        "width": 74.53800000000003,
+        "height": 18
+      },
+      {
+        "text": "DualSplit",
+        "x": 27.744,
+        "y": 355.18,
+        "width": 65.196,
+        "height": 18
+      },
+      {
+        "text": "Trial split",
+        "x": 27.744,
+        "y": 311.98,
+        "width": 65.64600000000002,
+        "height": 18
+      },
+      {
+        "text": "Quadri Split",
+        "x": 27.744,
+        "y": 268.78,
+        "width": 86.17274400000001,
+        "height": 18.024
+      },
+      {
+        "text": "Penta Split",
+        "x": 27.744,
+        "y": 225.55,
+        "width": 77.652,
+        "height": 18
+      },
+      {
+        "text": "Seleziona modello",
+        "x": 230.33,
+        "y": 307.94,
+        "width": 136.07999999999998,
+        "height": 18
+      },
+      {
+        "text": "Costo totale",
+        "x": 514.9,
+        "y": 307.94,
+        "width": 90.16199999999999,
+        "height": 18
+      },
+      {
+        "text": "Cosa è incluso:",
+        "x": 259.68,
+        "y": 241.03,
+        "width": 107.964,
+        "height": 18
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 225.91,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Tubazione",
+        "x": 273.24,
+        "y": 225.91,
+        "width": 46.180320000000044,
+        "height": 11.04
+      },
+      {
+        "text": "refrigerante",
+        "x": 321.74,
+        "y": 225.91,
+        "width": 53.84208000000001,
+        "height": 11.04
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 212.71,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Canalina esterna con inserti appositi",
+        "x": 273.24,
+        "y": 212.71,
+        "width": 161.76912000000004,
+        "height": 11.04
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 199.51,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Collegamento elettrico",
+        "x": 273.24,
+        "y": 199.51,
+        "width": 102.15311999999997,
+        "height": 11.04
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 186.31,
+        "width": 9.858024,
+        "height": 11.064
+      },
+      {
+        "text": "Collegamento",
+        "x": 273.24,
+        "y": 186.31,
+        "width": 62.34564000000001,
+        "height": 11.064
+      },
+      {
+        "text": "condensa",
+        "x": 337.58,
+        "y": 186.31,
+        "width": 42.983639999999966,
+        "height": 11.064
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 173.09,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Staffe di sostegno motore esterno",
+        "x": 273.24,
+        "y": 173.09,
+        "width": 152.07599999999996,
+        "height": 11.04
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 159.89,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Pratica",
+        "x": 273.24,
+        "y": 159.89,
+        "width": 31.088639999999977,
+        "height": 11.04
+      },
+      {
+        "text": "ENEA",
+        "x": 306.48,
+        "y": 159.89,
+        "width": 24.25488000000002,
+        "height": 11.04
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 146.69,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Di.Co",
+        "x": 273.24,
+        "y": 146.69,
+        "width": 23.81328,
+        "height": 11.04
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 133.49,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Pompa",
+        "x": 273.24,
+        "y": 133.49,
+        "width": 31.541279999999965,
+        "height": 11.04
+      },
+      {
+        "text": "di",
+        "x": 306.84,
+        "y": 133.49,
+        "width": 8.299199999999997,
+        "height": 11.04
+      },
+      {
+        "text": "rilancio",
+        "x": 317.64,
+        "y": 133.49,
+        "width": 32.98751999999999,
+        "height": 11.04
+      },
+      {
+        "text": "condensa",
+        "x": 352.94,
+        "y": 133.49,
+        "width": 42.978719999999996,
+        "height": 11.04
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 120.29,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Nebulizzatore condensa",
+        "x": 273.24,
+        "y": 120.29,
+        "width": 107.27568,
+        "height": 11.04
+      },
+      {
+        "text": "❑",
+        "x": 259.68,
+        "y": 107.09,
+        "width": 9.83664,
+        "height": 11.04
+      },
+      {
+        "text": "Smaltimento",
+        "x": 273.24,
+        "y": 107.09,
+        "width": 57.41903999999996,
+        "height": 11.04
+      },
+      {
+        "text": "vecchio",
+        "x": 332.78,
+        "y": 107.09,
+        "width": 34.025279999999974,
+        "height": 11.04
+      },
+      {
+        "text": "climatizzator",
+        "x": 369.02,
+        "y": 107.09,
+        "width": 57.363840000000025,
+        "height": 11.04
+      },
+      {
+        "text": "e",
+        "x": 426.38,
+        "y": 107.09,
+        "width": 5.49792,
+        "height": 11.04
+      },
+      {
+        "text": "Nota bene:",
+        "x": 22.824,
+        "y": 27.024,
+        "width": 81.306,
+        "height": 18
+      },
+      {
+        "text": "il",
+        "x": 108.53,
+        "y": 27.024,
+        "width": 5.5200000000000005,
+        "height": 12
+      },
+      {
+        "text": "monosplit",
+        "x": 116.81,
+        "y": 27.024,
+        "width": 49.224000000000004,
+        "height": 12
+      },
+      {
+        "text": "è un prodotto unico, il dual ha 1 motore esterno e 2 interne e così via, saranno da selezionare i modelli di unità interna ed",
+        "x": 168.65,
+        "y": 27.024,
+        "width": 590.3879999999999,
+        "height": 12
+      },
+      {
+        "text": "e",
+        "x": 762.24,
+        "y": 27.024,
+        "width": 5.976,
+        "height": 12
+      },
+      {
+        "text": "sterna",
+        "x": 768.24,
+        "y": 27.024,
+        "width": 30.80400000000011,
+        "height": 12
+      }
+    ]
+  },
+  {
+    "page": 5,
+    "rows": [
+      {
+        "text": "Crea un preventivo",
+        "x": 275.02,
+        "y": 494.83,
+        "width": 410.04215999999997,
+        "height": 54.024
+      },
+      {
+        "text": "Prodotto",
+        "x": 51.048,
+        "y": 445.92,
+        "width": 66.65400000000001,
+        "height": 18
+      },
+      {
+        "text": "Clima",
+        "x": 51.048,
+        "y": 403.42,
+        "width": 40.769999999999996,
+        "height": 18
+      },
+      {
+        "text": "Caldaia",
+        "x": 51.048,
+        "y": 360.22,
+        "width": 53.188824,
+        "height": 18.024
+      },
+      {
+        "text": "Fotovoltaico",
+        "x": 51.048,
+        "y": 316.99,
+        "width": 89.76599999999999,
+        "height": 18
+      },
+      {
+        "text": "Pompa di calore",
+        "x": 51.048,
+        "y": 273.79,
+        "width": 117.33624000000002,
+        "height": 18.024
+      },
+      {
+        "text": "Solare termico",
+        "x": 51.048,
+        "y": 230.57,
+        "width": 106.07400000000003,
+        "height": 18
+      },
+      {
+        "text": "Wallbox",
+        "x": 51.048,
+        "y": 187.37,
+        "width": 58.536,
+        "height": 18
+      },
+      {
+        "text": "Opere incluse",
+        "x": 488.33,
+        "y": 357.17,
+        "width": 101.98799999999997,
+        "height": 18
+      },
+      {
+        "text": "Marca ______",
+        "x": 531.12,
+        "y": 327.22,
+        "width": 61.13184000000015,
+        "height": 10.56
+      },
+      {
+        "text": "Modello ______",
+        "x": 531.12,
+        "y": 302.02,
+        "width": 69.53760000000001,
+        "height": 10.56
+      },
+      {
+        "text": "Potenza _______",
+        "x": 531.12,
+        "y": 276.82,
+        "width": 73.50816000000013,
+        "height": 10.56
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 251.62,
+        "width": 9.40896,
+        "height": 10.56
+      },
+      {
+        "text": "Defangatore",
+        "x": 544.68,
+        "y": 251.62,
+        "width": 53.48639999999991,
+        "height": 10.56
+      },
+      {
+        "text": "magnetico",
+        "x": 600.5,
+        "y": 251.62,
+        "width": 45.03839999999993,
+        "height": 10.56
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 226.39,
+        "width": 9.40896,
+        "height": 10.56
+      },
+      {
+        "text": "Filtro anticalcare",
+        "x": 544.68,
+        "y": 226.39,
+        "width": 71.38559999999988,
+        "height": 10.56
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 201.19,
+        "width": 9.40896,
+        "height": 10.56
+      },
+      {
+        "text": "Connessioni idrauliche",
+        "x": 544.68,
+        "y": 201.19,
+        "width": 95.96927999999967,
+        "height": 10.56
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 175.99,
+        "width": 9.40896,
+        "height": 10.56
+      },
+      {
+        "text": "Scarico fumi standard",
+        "x": 544.68,
+        "y": 175.99,
+        "width": 92.51615999999991,
+        "height": 10.56
+      },
+      {
+        "text": "Intubamento canna fumaria",
+        "x": 531.12,
+        "y": 150.67,
+        "width": 119.46160800000035,
+        "height": 10.584
+      },
+      {
+        "text": "→",
+        "x": 652.58,
+        "y": 150.67,
+        "width": 10.361736,
+        "height": 10.584
+      },
+      {
+        "text": "____Mt",
+        "x": 665.3,
+        "y": 150.67,
+        "width": 33.64653600000001,
+        "height": 10.584
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 125.57,
+        "width": 9.40896,
+        "height": 10.56
+      },
+      {
+        "text": "Pompa di rilancio condensa",
+        "x": 544.68,
+        "y": 125.57,
+        "width": 116.8886399999999,
+        "height": 10.56
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 100.37,
+        "width": 9.40896,
+        "height": 10.56
+      },
+      {
+        "text": "Lavaggio impianto",
+        "x": 544.68,
+        "y": 100.37,
+        "width": 77.68991999999989,
+        "height": 10.56
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 75.048,
+        "width": 9.40896,
+        "height": 10.56
+      },
+      {
+        "text": "Termostato",
+        "x": 544.68,
+        "y": 75.048,
+        "width": 49.705919999999914,
+        "height": 10.56
+      },
+      {
+        "text": "→",
+        "x": 596.54,
+        "y": 75.048,
+        "width": 10.33824,
+        "height": 10.56
+      },
+      {
+        "text": "Marca_______",
+        "x": 611.54,
+        "y": 75.048,
+        "width": 64.14144000000016,
+        "height": 10.56
+      },
+      {
+        "text": "Modello _______",
+        "x": 682.5137599999999,
+        "y": 75.048,
+        "width": 74.85984000000012,
+        "height": 10.56
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 49.848,
+        "width": 9.430344,
+        "height": 10.584
+      },
+      {
+        "text": "Termovalvole",
+        "x": 544.68,
+        "y": 49.848,
+        "width": 58.3072560000001,
+        "height": 10.584
+      },
+      {
+        "text": "→",
+        "x": 604.94,
+        "y": 49.848,
+        "width": 10.361736,
+        "height": 10.584
+      },
+      {
+        "text": "Quantità_________",
+        "x": 617.54,
+        "y": 49.848,
+        "width": 85.06360800000013,
+        "height": 10.584
+      },
+      {
+        "text": "❑",
+        "x": 531.12,
+        "y": 24.744,
+        "width": 9.40896,
+        "height": 10.56
+      },
+      {
+        "text": "Campo note ________________",
+        "x": 544.68,
+        "y": 24.744,
+        "width": 138.74784000000034,
+        "height": 10.56
+      }
+    ]
+  },
+  {
+    "page": 6,
+    "rows": [
+      {
+        "text": "Crea un preventivo",
+        "x": 275.02,
+        "y": 494.83,
+        "width": 410.04215999999997,
+        "height": 54.024
+      },
+      {
+        "text": "Prodotto",
+        "x": 51.048,
+        "y": 445.92,
+        "width": 66.65400000000001,
+        "height": 18
+      },
+      {
+        "text": "Clima",
+        "x": 51.048,
+        "y": 403.42,
+        "width": 40.769999999999996,
+        "height": 18
+      },
+      {
+        "text": "Caldaia",
+        "x": 51.048,
+        "y": 360.22,
+        "width": 53.188824,
+        "height": 18.024
+      },
+      {
+        "text": "Fotovoltaico",
+        "x": 51.048,
+        "y": 316.99,
+        "width": 89.76599999999999,
+        "height": 18
+      },
+      {
+        "text": "Pompa di calore",
+        "x": 51.048,
+        "y": 273.79,
+        "width": 117.33624000000002,
+        "height": 18.024
+      },
+      {
+        "text": "Solare termico",
+        "x": 51.048,
+        "y": 230.57,
+        "width": 106.07400000000003,
+        "height": 18
+      },
+      {
+        "text": "Wallbox",
+        "x": 51.048,
+        "y": 187.37,
+        "width": 58.536,
+        "height": 18
+      },
+      {
+        "text": "Opere incluse",
+        "x": 494.45,
+        "y": 431.3,
+        "width": 101.98799999999997,
+        "height": 18
+      },
+      {
+        "text": "Marca Moduli fotovoltaici ______",
+        "x": 494.45,
+        "y": 395.42,
+        "width": 144.3129600000001,
+        "height": 10.56
+      },
+      {
+        "text": "Quantità moduli fotovoltaici_______",
+        "x": 494.45,
+        "y": 382.82,
+        "width": 157.0483200000001,
+        "height": 10.56
+      },
+      {
+        "text": "Tipo",
+        "x": 494.45,
+        "y": 370.22,
+        "width": 18.648960000000006,
+        "height": 10.56
+      },
+      {
+        "text": "di",
+        "x": 515.33,
+        "y": 370.22,
+        "width": 7.9487999999999985,
+        "height": 10.56
+      },
+      {
+        "text": "struttura_________",
+        "x": 525.53,
+        "y": 370.22,
+        "width": 85.48320000000004,
+        "height": 10.56
+      },
+      {
+        "text": "Marca",
+        "x": 494.45,
+        "y": 357.62,
+        "width": 27.276480000000006,
+        "height": 10.56
+      },
+      {
+        "text": "e",
+        "x": 523.97,
+        "y": 357.62,
+        "width": 5.2588799999999996,
+        "height": 10.56
+      },
+      {
+        "text": "modello",
+        "x": 531.53,
+        "y": 357.62,
+        "width": 35.11199999999996,
+        "height": 10.56
+      },
+      {
+        "text": "inverter_________",
+        "x": 568.85,
+        "y": 357.62,
+        "width": 81.39647999999991,
+        "height": 10.56
+      },
+      {
+        "text": "Quadro elettrico________",
+        "x": 494.45,
+        "y": 345.02,
+        "width": 112.83360000000019,
+        "height": 10.56
+      },
+      {
+        "text": "Tipo",
+        "x": 494.45,
+        "y": 332.42,
+        "width": 18.659591999999975,
+        "height": 10.584
+      },
+      {
+        "text": "di",
+        "x": 515.33,
+        "y": 332.42,
+        "width": 7.954319999999978,
+        "height": 10.584
+      },
+      {
+        "text": "cablaggio",
+        "x": 525.53,
+        "y": 332.42,
+        "width": 40.272120000000164,
+        "height": 10.584
+      },
+      {
+        "text": "D.C________",
+        "x": 568.25,
+        "y": 332.42,
+        "width": 56.952504000000005,
+        "height": 10.584
+      },
+      {
+        "text": "Tipo di cablaggio A.C________",
+        "x": 494.45,
+        "y": 319.8,
+        "width": 130.37376000000006,
+        "height": 10.56
+      },
+      {
+        "text": "Batterie d’accumulo",
+        "x": 494.45,
+        "y": 294.48,
+        "width": 86.07455999999982,
+        "height": 10.56
+      },
+      {
+        "text": "→",
+        "x": 582.77,
+        "y": 294.48,
+        "width": 10.33824,
+        "height": 10.56
+      },
+      {
+        "text": "Si / no",
+        "x": 595.49,
+        "y": 294.48,
+        "width": 27.07584000000003,
+        "height": 10.56
+      },
+      {
+        "text": "→",
+        "x": 624.79,
+        "y": 294.48,
+        "width": 10.33824,
+        "height": 10.56
+      },
+      {
+        "text": "Se sì",
+        "x": 637.51,
+        "y": 294.48,
+        "width": 18.976319999999987,
+        "height": 10.56
+      },
+      {
+        "text": "Marca e modello batterie_______",
+        "x": 494.45,
+        "y": 269.4,
+        "width": 145.4956800000001,
+        "height": 10.56
+      },
+      {
+        "text": "Quantità batterie______",
+        "x": 494.45,
+        "y": 256.8,
+        "width": 105.65280000000001,
+        "height": 10.56
+      },
+      {
+        "text": "Accessori",
+        "x": 494.45,
+        "y": 244.2,
+        "width": 40.09631999999997,
+        "height": 10.56
+      },
+      {
+        "text": "opzionali________",
+        "x": 536.93,
+        "y": 244.2,
+        "width": 80.58336,
+        "height": 10.56
+      },
+      {
+        "text": "Backup",
+        "x": 494.45,
+        "y": 218.86,
+        "width": 31.130879999999948,
+        "height": 10.56
+      },
+      {
+        "text": "impianto",
+        "x": 527.81,
+        "y": 218.86,
+        "width": 38.33279999999993,
+        "height": 10.56
+      },
+      {
+        "text": "→",
+        "x": 568.37,
+        "y": 218.86,
+        "width": 10.33824,
+        "height": 10.56
+      },
+      {
+        "text": "Si / no",
+        "x": 580.97,
+        "y": 218.86,
+        "width": 27.07584000000003,
+        "height": 10.56
+      },
+      {
+        "text": "Sistema di trasporto a tetto",
+        "x": 494.45,
+        "y": 193.66,
+        "width": 117.0575999999999,
+        "height": 10.56
+      },
+      {
+        "text": "→",
+        "x": 613.85,
+        "y": 193.66,
+        "width": 10.33824,
+        "height": 10.56
+      },
+      {
+        "text": "Braccio meccanico / drone da trasporto /",
+        "x": 626.47,
+        "y": 193.66,
+        "width": 174.84191999999996,
+        "height": 10.56
+      },
+      {
+        "text": "piattaforma aerea/ Nessun trasporto a tetto",
+        "x": 638.47,
+        "y": 181.18,
+        "width": 188.05247999999978,
+        "height": 10.56
+      },
+      {
+        "text": "mediante attrezzatura.",
+        "x": 638.47,
+        "y": 168.58,
+        "width": 97.9439999999998,
+        "height": 10.56
+      }
+    ]
+  },
+  {
+    "page": 7,
+    "rows": [
+      {
+        "text": "Crea un preventivo",
+        "x": 275.02,
+        "y": 494.83,
+        "width": 410.04215999999997,
+        "height": 54.024
+      },
+      {
+        "text": "Prodotto",
+        "x": 51.048,
+        "y": 445.92,
+        "width": 66.65400000000001,
+        "height": 18
+      },
+      {
+        "text": "Clima",
+        "x": 51.048,
+        "y": 403.42,
+        "width": 40.769999999999996,
+        "height": 18
+      },
+      {
+        "text": "Caldaia",
+        "x": 51.048,
+        "y": 360.22,
+        "width": 53.188824,
+        "height": 18.024
+      },
+      {
+        "text": "Fotovoltaico",
+        "x": 51.048,
+        "y": 316.99,
+        "width": 89.76599999999999,
+        "height": 18
+      },
+      {
+        "text": "Pompa di calore",
+        "x": 51.048,
+        "y": 273.79,
+        "width": 117.33624000000002,
+        "height": 18.024
+      },
+      {
+        "text": "Solare termico",
+        "x": 51.048,
+        "y": 230.57,
+        "width": 106.07400000000003,
+        "height": 18
+      },
+      {
+        "text": "Wallbox",
+        "x": 51.048,
+        "y": 187.37,
+        "width": 58.536,
+        "height": 18
+      },
+      {
+        "text": "Unità esterna",
+        "x": 494.45,
+        "y": 400.03,
+        "width": 67.44000000000032,
+        "height": 12
+      },
+      {
+        "text": "Acqua calda sanitaria",
+        "x": 494.45,
+        "y": 371.02,
+        "width": 106.00799999999997,
+        "height": 12
+      },
+      {
+        "text": "Split",
+        "x": 494.45,
+        "y": 342.02,
+        "width": 22.25999999999995,
+        "height": 12
+      }
+    ]
+  },
+  {
+    "page": 8,
+    "rows": [
+      {
+        "text": "Crea un preventivo",
+        "x": 275.02,
+        "y": 494.83,
+        "width": 410.04215999999997,
+        "height": 54.024
+      },
+      {
+        "text": "Prodotto",
+        "x": 51.048,
+        "y": 445.92,
+        "width": 66.65400000000001,
+        "height": 18
+      },
+      {
+        "text": "Clima",
+        "x": 51.048,
+        "y": 403.42,
+        "width": 40.769999999999996,
+        "height": 18
+      },
+      {
+        "text": "Caldaia",
+        "x": 51.048,
+        "y": 360.22,
+        "width": 53.188824,
+        "height": 18.024
+      },
+      {
+        "text": "Fotovoltaico",
+        "x": 51.048,
+        "y": 316.99,
+        "width": 89.76599999999999,
+        "height": 18
+      },
+      {
+        "text": "Pompa di calore",
+        "x": 51.048,
+        "y": 273.79,
+        "width": 117.33624000000002,
+        "height": 18.024
+      },
+      {
+        "text": "Solare termico",
+        "x": 51.048,
+        "y": 230.57,
+        "width": 106.07400000000003,
+        "height": 18
+      },
+      {
+        "text": "Wallbox",
+        "x": 51.048,
+        "y": 187.37,
+        "width": 58.536,
+        "height": 18
+      },
+      {
+        "text": "Marca, modello capacità",
+        "x": 494.45,
+        "y": 400.03,
+        "width": 122.25600000000009,
+        "height": 12
+      }
+    ]
+  },
+  {
+    "page": 9,
+    "rows": [
+      {
+        "text": "Crea un preventivo",
+        "x": 275.02,
+        "y": 494.83,
+        "width": 410.04215999999997,
+        "height": 54.024
+      },
+      {
+        "text": "Prodotto",
+        "x": 51.048,
+        "y": 445.92,
+        "width": 66.65400000000001,
+        "height": 18
+      },
+      {
+        "text": "Clima",
+        "x": 51.048,
+        "y": 403.42,
+        "width": 40.769999999999996,
+        "height": 18
+      },
+      {
+        "text": "Caldaia",
+        "x": 51.048,
+        "y": 360.22,
+        "width": 53.188824,
+        "height": 18.024
+      },
+      {
+        "text": "Fotovoltaico",
+        "x": 51.048,
+        "y": 316.99,
+        "width": 89.76599999999999,
+        "height": 18
+      },
+      {
+        "text": "Pompa di calore",
+        "x": 51.048,
+        "y": 273.79,
+        "width": 117.33624000000002,
+        "height": 18.024
+      },
+      {
+        "text": "Solare termico",
+        "x": 51.048,
+        "y": 230.57,
+        "width": 106.07400000000003,
+        "height": 18
+      },
+      {
+        "text": "Wallbox",
+        "x": 51.048,
+        "y": 187.37,
+        "width": 58.536,
+        "height": 18
+      },
+      {
+        "text": "Marca, modello ,potenza",
+        "x": 487.27,
+        "y": 404.78,
+        "width": 124.2960000000002,
+        "height": 12
+      },
+      {
+        "text": "Monofase / trifase",
+        "x": 487.27,
+        "y": 375.79,
+        "width": 92.6159999999999,
+        "height": 12
+      },
+      {
+        "text": "Smart",
+        "x": 487.27,
+        "y": 346.78,
+        "width": 29.711999999999996,
+        "height": 12
+      },
+      {
+        "text": "Meter",
+        "x": 519.67,
+        "y": 346.78,
+        "width": 30.66000000000016,
+        "height": 12
+      },
+      {
+        "text": "( Si no )",
+        "x": 553.03,
+        "y": 346.78,
+        "width": 37.296000000000085,
+        "height": 12
+      },
+      {
+        "text": "Palo di supporto (Si no)",
+        "x": 487.27,
+        "y": 317.76,
+        "width": 116.37600000000003,
+        "height": 12
+      }
+    ]
+  },
+  {
+    "page": 10,
+    "rows": []
+  }
+]

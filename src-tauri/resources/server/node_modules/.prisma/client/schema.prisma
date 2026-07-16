@@ -1,0 +1,316 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model CompanySettings {
+  id                       Int      @id @default(1)
+  businessName             String
+  vatNumber                String?
+  taxCode                  String?
+  address                  String?
+  streetNumber             String?
+  postalCode               String?
+  city                     String?
+  province                 String?
+  phone                    String?
+  email                    String?
+  pec                      String?
+  openingHours             String?
+  logoPath                 String?
+  defaultSeller            String?
+  defaultValidityDays      Int      @default(30)
+  defaultDeliveryTime      String?
+  defaultPaymentMethodId   Int?
+  defaultPaymentConditions String?
+  defaultVatRate           Decimal  @default(22)
+  defaultTaxNote           String?
+  standardNotes            String?
+  quoteNumberFormat        String   @default("PREV-{YYYY}-{NNNN}")
+  depositThresholdCents    Int      @default(299900)
+  defaultDepositPercent    Decimal  @default(50)
+  maxUploadMb              Int      @default(20)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+}
+
+model Customer {
+  id            Int               @id @default(autoincrement())
+  type          String            @default("PRIVATO")
+  firstName     String?
+  lastName      String?
+  companyName   String?
+  taxCode       String?
+  vatNumber     String?
+  recipientCode String?
+  pec           String?
+  phone         String?
+  email         String?
+  notes         String?
+  archived      Boolean           @default(false)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  addresses     CustomerAddress[]
+  quotes        Quote[]
+
+  @@index([lastName, firstName])
+  @@index([companyName])
+  @@index([taxCode])
+  @@index([vatNumber])
+}
+
+model CustomerAddress {
+  id           Int      @id @default(autoincrement())
+  customerId   Int
+  type         String   @default("RESIDENZA")
+  address      String?
+  streetNumber String?
+  postalCode   String?
+  city         String?
+  province     String?
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  customer     Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId, type])
+  @@index([city])
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  slug      String    @unique
+  position  Int       @default(0)
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+  services  Service[]
+  quotes    Quote[]
+}
+
+model Product {
+  id                     Int                 @id @default(autoincrement())
+  internalCode           String              @unique
+  name                   String
+  categoryId             Int
+  subcategory            String?
+  brand                  String?
+  model                  String?
+  description            String?
+  power                  String?
+  capacity               String?
+  unit                   String              @default("pz")
+  salePriceInclVatCents  Int                 @default(0)
+  salePriceExclVatCents  Int                 @default(0)
+  vatRate                Decimal             @default(22)
+  purchaseCostCents      Int                 @default(0)
+  supplier               String?
+  internalNotes          String?
+  quoteDescription       String?
+  imagePath              String?
+  technicalConfiguration String?
+  active                 Boolean             @default(true)
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  category               Category            @relation(fields: [categoryId], references: [id])
+  attachments            ProductAttachment[]
+  quoteItems             QuoteItem[]
+}
+
+model ProductAttachment {
+  id           Int                        @id @default(autoincrement())
+  productId    Int
+  originalName String
+  storedName   String                     @unique
+  path         String
+  mimeType     String                     @default("application/pdf")
+  sizeBytes    Int
+  createdAt    DateTime                   @default(now())
+  product      Product                    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  selections   QuoteAttachmentSelection[]
+
+  @@index([productId])
+}
+
+model Service {
+  id                Int         @id @default(autoincrement())
+  name              String
+  categoryId        Int?
+  description       String?
+  defaultPriceCents Int         @default(0)
+  vatRate           Decimal     @default(22)
+  unit              String      @default("corpo")
+  estimatedDuration String?
+  active            Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  category          Category?   @relation(fields: [categoryId], references: [id])
+  quoteItems        QuoteItem[]
+
+  @@index([name])
+}
+
+model Quote {
+  id                          Int                        @id @default(autoincrement())
+  number                      String                     @unique
+  customerId                  Int
+  categoryId                  Int?
+  status                      String                     @default("BOZZA")
+  quoteDate                   DateTime                   @default(now())
+  validityDays                Int                        @default(30)
+  expiryDate                  DateTime
+  seller                      String?
+  subject                     String?
+  deliveryTime                String?
+  internalNotes               String?
+  installationAddressSnapshot String?
+  customerSnapshot            String
+  categorySnapshot            String?
+  technicalConfiguration      String?
+  paymentMethod               String?
+  paymentConditions           String?
+  depositPercent              Decimal                    @default(0)
+  depositCents                Int                        @default(0)
+  balancePercent              Decimal                    @default(100)
+  balanceCents                Int                        @default(0)
+  financingAvailable          Boolean                    @default(false)
+  financingType               String?
+  financingNotes              String?
+  incentive                   String?
+  fiscalNote                  String?
+  visibleNotes                String?
+  additionalConditions        String?
+  subtotalCents               Int                        @default(0)
+  discountCents               Int                        @default(0)
+  vatCents                    Int                        @default(0)
+  totalCents                  Int                        @default(0)
+  estimatedMarginCents        Int                        @default(0)
+  attachmentMode              String                     @default("NESSUNO")
+  lastPdfPath                 String?
+  lastPdfGeneratedAt          DateTime?
+  issuedAt                    DateTime?
+  createdAt                   DateTime                   @default(now())
+  updatedAt                   DateTime                   @updatedAt
+  customer                    Customer                   @relation(fields: [customerId], references: [id])
+  category                    Category?                  @relation(fields: [categoryId], references: [id])
+  items                       QuoteItem[]
+  statusHistory               QuoteStatusHistory[]
+  reminders                   QuoteReminder[]
+  attachmentSelections        QuoteAttachmentSelection[]
+
+  @@index([status])
+  @@index([expiryDate])
+  @@index([quoteDate])
+  @@index([customerId])
+}
+
+model QuoteItem {
+  id                    Int      @id @default(autoincrement())
+  quoteId               Int
+  type                  String   @default("LIBERA")
+  productId             Int?
+  serviceId             Int?
+  position              Int      @default(0)
+  title                 String?
+  description           String
+  quantity              Decimal  @default(1)
+  unit                  String   @default("pz")
+  unitPriceCents        Int      @default(0)
+  priceIncludesVat      Boolean  @default(true)
+  discountPercent       Decimal  @default(0)
+  discountFixedCents    Int      @default(0)
+  vatRate               Decimal  @default(22)
+  subtotalCents         Int      @default(0)
+  discountCents         Int      @default(0)
+  vatCents              Int      @default(0)
+  totalCents            Int      @default(0)
+  purchaseCostCents     Int      @default(0)
+  productSnapshot       String?
+  serviceSnapshot       String?
+  configurationSnapshot String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  quote                 Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  product               Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  service               Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  @@index([quoteId, position])
+}
+
+model QuoteStatusHistory {
+  id         Int      @id @default(autoincrement())
+  quoteId    Int
+  fromStatus String?
+  toStatus   String
+  note       String?
+  changedAt  DateTime @default(now())
+  quote      Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@index([quoteId, changedAt])
+}
+
+model QuoteReminder {
+  id             Int       @id @default(autoincrement())
+  quoteId        Int
+  dueAt          DateTime
+  postponedUntil DateTime?
+  contactedAt    DateTime?
+  contactNotes   String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  quote          Quote     @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@index([dueAt])
+  @@index([quoteId])
+}
+
+model QuoteAttachmentSelection {
+  id           Int               @id @default(autoincrement())
+  quoteId      Int
+  attachmentId Int
+  selected     Boolean           @default(true)
+  quote        Quote             @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  attachment   ProductAttachment @relation(fields: [attachmentId], references: [id], onDelete: Cascade)
+
+  @@unique([quoteId, attachmentId])
+}
+
+model PaymentMethod {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  active    Boolean  @default(true)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LegalDocument {
+  id        Int      @id @default(autoincrement())
+  type      String   @unique
+  title     String
+  content   String
+  updatedAt DateTime @updatedAt
+}
+
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model SystemLog {
+  id        Int      @id @default(autoincrement())
+  level     String   @default("ERROR")
+  context   String?
+  message   String
+  details   String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

@@ -1,0 +1,4 @@
+{"type":"receive","time":1784011844311.793,"opcode":1,"data":"{\"action\":\"sync\",\"hash\":\"202b8e7383bbf225\",\"errors\":[],\"warnings\":[],\"versionInfo\":{\"staleness\":\"stale-major\",\"expected\":\"16.2.10\",\"installed\":\"15.5.20\"},\"debug\":{},\"devIndicator\":{\"disabledUntil\":0},\"devToolsConfig\":{}}"}
+{"type":"send","time":1784011844312.77,"opcode":1,"data":"{\"event\":\"client-success\",\"clientId\":1784011844126}"}
+{"type":"receive","time":1784011844313.061,"opcode":1,"data":"{\"action\":\"isrManifest\",\"data\":{\"/prodotti\":true,\"/clienti\":true,\"/preventivi\":true,\"/\":true,\"/backup\":true,\"/impostazioni\":true,\"/tutorial\":true,\"/scadenze\":true,\"/servizi\":true}}"}
+{"type":"receive","time":1784011844698.981,"opcode":1,"data":"{\"action\":\"isrManifest\",\"data\":{\"/prodotti\":true,\"/clienti\":true,\"/preventivi\":true,\"/\":true,\"/backup\":true,\"/impostazioni\":true,\"/tutorial\":true,\"/scadenze\":true}}"}

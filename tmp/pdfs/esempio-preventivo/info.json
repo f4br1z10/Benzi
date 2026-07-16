@@ -1,0 +1,21 @@
+{
+  "file": "..\\..\\output\\pdf\\esempio-preventivo.pdf",
+  "pages": 3,
+  "dimensions": [
+    {
+      "page": 1,
+      "width": 594.95996,
+      "height": 841.91998
+    },
+    {
+      "page": 2,
+      "width": 594.95996,
+      "height": 841.91998
+    },
+    {
+      "page": 3,
+      "width": 594.95996,
+      "height": 841.91998
+    }
+  ]
+}

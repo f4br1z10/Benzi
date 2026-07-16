@@ -1,0 +1,4 @@
+{"type":"receive","time":1784011855386.739,"opcode":1,"data":"{\"action\":\"sync\",\"hash\":\"202b8e7383bbf225\",\"errors\":[],\"warnings\":[],\"versionInfo\":{\"staleness\":\"stale-major\",\"expected\":\"16.2.10\",\"installed\":\"15.5.20\"},\"debug\":{},\"devIndicator\":{\"disabledUntil\":0},\"devToolsConfig\":{}}"}
+{"type":"send","time":1784011855387.611,"opcode":1,"data":"{\"event\":\"client-success\",\"clientId\":1784011855129}"}
+{"type":"receive","time":1784011855398.164,"opcode":1,"data":"{\"action\":\"isrManifest\",\"data\":{\"/impostazioni\":true,\"/tutorial\":true,\"/scadenze\":true,\"/servizi\":true,\"/prodotti\":true,\"/clienti\":true,\"/preventivi\":true,\"/\":true,\"/backup\":true}}"}
+{"type":"receive","time":1784011855636.569,"opcode":1,"data":"{\"action\":\"isrManifest\",\"data\":{\"/impostazioni\":true,\"/tutorial\":true,\"/scadenze\":true,\"/servizi\":true,\"/prodotti\":true,\"/clienti\":true,\"/preventivi\":true,\"/\":true}}"}

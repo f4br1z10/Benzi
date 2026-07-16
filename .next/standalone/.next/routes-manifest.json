@@ -1,0 +1,212 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/attachments/[id]",
+      "regex": "^/api/attachments/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/attachments/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/customers/[id]",
+      "regex": "^/api/customers/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/customers/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/export/[entity]",
+      "regex": "^/api/export/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPentity": "nxtPentity"
+      },
+      "namedRegex": "^/api/export/(?<nxtPentity>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/import/[entity]",
+      "regex": "^/api/import/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPentity": "nxtPentity"
+      },
+      "namedRegex": "^/api/import/(?<nxtPentity>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/products/[id]",
+      "regex": "^/api/products/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/products/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/products/[id]/attachments",
+      "regex": "^/api/products/([^/]+?)/attachments(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/products/(?<nxtPid>[^/]+?)/attachments(?:/)?$"
+    },
+    {
+      "page": "/api/quotes/[id]",
+      "regex": "^/api/quotes/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/quotes/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/quotes/[id]/duplicate",
+      "regex": "^/api/quotes/([^/]+?)/duplicate(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/quotes/(?<nxtPid>[^/]+?)/duplicate(?:/)?$"
+    },
+    {
+      "page": "/api/quotes/[id]/pdf",
+      "regex": "^/api/quotes/([^/]+?)/pdf(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/quotes/(?<nxtPid>[^/]+?)/pdf(?:/)?$"
+    },
+    {
+      "page": "/api/quotes/[id]/status",
+      "regex": "^/api/quotes/([^/]+?)/status(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/quotes/(?<nxtPid>[^/]+?)/status(?:/)?$"
+    },
+    {
+      "page": "/api/services/[id]",
+      "regex": "^/api/services/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/services/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/preventivi/[id]",
+      "regex": "^/preventivi/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/preventivi/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/preventivi/[id]/modifica",
+      "regex": "^/preventivi/([^/]+?)/modifica(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/preventivi/(?<nxtPid>[^/]+?)/modifica(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/backup",
+      "regex": "^/backup(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/backup(?:/)?$"
+    },
+    {
+      "page": "/clienti",
+      "regex": "^/clienti(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/clienti(?:/)?$"
+    },
+    {
+      "page": "/impostazioni",
+      "regex": "^/impostazioni(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/impostazioni(?:/)?$"
+    },
+    {
+      "page": "/preventivi",
+      "regex": "^/preventivi(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/preventivi(?:/)?$"
+    },
+    {
+      "page": "/preventivi/nuovo",
+      "regex": "^/preventivi/nuovo(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/preventivi/nuovo(?:/)?$"
+    },
+    {
+      "page": "/prodotti",
+      "regex": "^/prodotti(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/prodotti(?:/)?$"
+    },
+    {
+      "page": "/scadenze",
+      "regex": "^/scadenze(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/scadenze(?:/)?$"
+    },
+    {
+      "page": "/servizi",
+      "regex": "^/servizi(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/servizi(?:/)?$"
+    },
+    {
+      "page": "/tutorial",
+      "regex": "^/tutorial(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/tutorial(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

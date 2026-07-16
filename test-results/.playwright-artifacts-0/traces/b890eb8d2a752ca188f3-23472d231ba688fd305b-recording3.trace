@@ -1,0 +1,14 @@
+{"version":8,"type":"context-options","origin":"library","browserName":"","playwrightVersion":"1.61.1","options":{},"platform":"win32","wallTime":1784012043841,"monotonicTime":218520.97,"sdkLanguage":"javascript","contextId":"request-context@99770db2f8c07d60aca699975098ea3c","title":"qa-full-application.spec.ts:39 › campagna QA completa SG Clima › creazione, modifica, ricerca, controllo duplicato ed eliminazione clienti"}
+{"type":"before","callId":"call@142","startTime":218525.855,"class":"APIRequestContext","method":"fetch","params":{"url":"/api/customers/8","method":"DELETE","timeout":0},"stepId":"pw:api@118"}
+{"type":"log","callId":"call@142","time":218534.089,"message":"→ DELETE http://localhost:3100/api/customers/8"}
+{"type":"log","callId":"call@142","time":218534.124,"message":"  user-agent: Playwright/1.61.1 (x64; windows 10.0) node/22.14"}
+{"type":"log","callId":"call@142","time":218534.137,"message":"  accept: */*"}
+{"type":"log","callId":"call@142","time":218534.15,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"call@142","time":223789.294,"message":"← 200 OK"}
+{"type":"log","callId":"call@142","time":223789.328,"message":"  vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"}
+{"type":"log","callId":"call@142","time":223789.339,"message":"  content-type: application/json"}
+{"type":"log","callId":"call@142","time":223789.346,"message":"  date: Tue, 14 Jul 2026 06:54:09 GMT"}
+{"type":"log","callId":"call@142","time":223789.352,"message":"  connection: keep-alive"}
+{"type":"log","callId":"call@142","time":223789.359,"message":"  keep-alive: timeout=5"}
+{"type":"log","callId":"call@142","time":223789.365,"message":"  transfer-encoding: chunked"}
+{"type":"after","callId":"call@142","endTime":223795.145,"result":{"response":{"url":"http://localhost:3100/api/customers/8","status":200,"statusText":"OK","headers":[{"name":"vary","value":"rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"},{"name":"content-type","value":"application/json"},{"name":"Date","value":"Tue, 14 Jul 2026 06:54:09 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=5"},{"name":"Transfer-Encoding","value":"chunked"}],"serverAddr":{"ipAddress":"::1","port":3100},"fetchUid":"e55192ebadd5117f7db72f0e9e486aa2"}}}
