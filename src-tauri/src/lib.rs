@@ -1,5 +1,6 @@
 use std::{
     fs,
+    io::{Read, Write},
     net::{TcpListener, TcpStream},
     path::{Path, PathBuf},
     process::{Child, Command, Stdio},
@@ -54,6 +55,27 @@ fn available_port() -> std::io::Result<u16> {
     Ok(listener.local_addr()?.port())
 }
 
+fn server_is_ready(port: u16) -> bool {
+    let address = ("127.0.0.1", port).into();
+    let Ok(mut stream) = TcpStream::connect_timeout(&address, Duration::from_millis(500)) else {
+        return false;
+    };
+    let _ = stream.set_read_timeout(Some(Duration::from_secs(3)));
+    let _ = stream.set_write_timeout(Some(Duration::from_secs(1)));
+    if stream
+        .write_all(b"GET / HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n")
+        .is_err()
+    {
+        return false;
+    }
+    let mut response = [0_u8; 64];
+    let Ok(read) = stream.read(&mut response) else {
+        return false;
+    };
+    let status = String::from_utf8_lossy(&response[..read]);
+    status.starts_with("HTTP/1.1 200") || status.starts_with("HTTP/1.1 30")
+}
+
 fn find_browser(resource_dir: &Path) -> Option<PathBuf> {
     let root = resource_dir.join("resources").join("browser");
     let mut pending = vec![root];
@@ -63,7 +85,11 @@ fn find_browser(resource_dir: &Path) -> Option<PathBuf> {
             let path = entry.path();
             if entry.file_type().ok()?.is_dir() {
                 pending.push(path);
-            } else if entry.file_name().to_string_lossy().eq_ignore_ascii_case("chrome-headless-shell.exe") {
+            } else if entry
+                .file_name()
+                .to_string_lossy()
+                .eq_ignore_ascii_case("chrome-headless-shell.exe")
+            {
                 return Some(path);
             }
         }
@@ -93,11 +119,27 @@ pub fn run() {
                     .to_string_lossy()
                     .replace('\\', "/")
             );
+            let log_path = data_dir
+                .join("storage")
+                .join("logs")
+                .join("desktop-server.log");
+            let server_log = fs::OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(&log_path)?;
             let mut command = Command::new(
-                resource_dir.join("resources").join("runtime").join("node.exe"),
+                resource_dir
+                    .join("resources")
+                    .join("runtime")
+                    .join("node.exe"),
             );
             command
-                .arg(resource_dir.join("resources").join("server").join("server.js"))
+                .arg(
+                    resource_dir
+                        .join("resources")
+                        .join("server")
+                        .join("server.js"),
+                )
                 .current_dir(&data_dir)
                 .env("NODE_ENV", "production")
                 .env("HOSTNAME", "127.0.0.1")
@@ -105,8 +147,8 @@ pub fn run() {
                 .env("APP_URL", &url)
                 .env("DATABASE_URL", database_url)
                 .stdin(Stdio::null())
-                .stdout(Stdio::null())
-                .stderr(Stdio::null());
+                .stdout(Stdio::from(server_log.try_clone()?))
+                .stderr(Stdio::from(server_log));
             if let Some(browser) = find_browser(&resource_dir) {
                 command.env("PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH", browser);
             }
@@ -116,12 +158,12 @@ pub fn run() {
             app.manage(ServerProcess(Mutex::new(Some(child))));
 
             thread::spawn(move || {
-                for _ in 0..120 {
-                    if TcpStream::connect(("127.0.0.1", port)).is_ok() {
+                for _ in 0..240 {
+                    if server_is_ready(port) {
                         let window_url = url.parse().expect("URL locale non valida");
                         let window_handle = handle.clone();
                         let _ = handle.run_on_main_thread(move || {
-                            let _ = WebviewWindowBuilder::new(
+                            if let Err(error) = WebviewWindowBuilder::new(
                                 &window_handle,
                                 "main",
                                 WebviewUrl::External(window_url),
@@ -130,7 +172,18 @@ pub fn run() {
                             .inner_size(1440.0, 900.0)
                             .min_inner_size(1100.0, 700.0)
                             .center()
-                            .build();
+                            .build()
+                            {
+                                if let Ok(mut log) = fs::OpenOptions::new()
+                                    .create(true)
+                                    .append(true)
+                                    .open(&log_path)
+                                {
+                                    let _ =
+                                        writeln!(log, "Errore creazione finestra WebView: {error}");
+                                }
+                                window_handle.exit(1);
+                            }
                         });
                         return;
                     }
@@ -143,7 +196,10 @@ pub fn run() {
         .build(tauri::generate_context!())
         .expect("errore durante l'avvio di Benzxi")
         .run(|app, event| {
-            if matches!(event, tauri::RunEvent::Exit | tauri::RunEvent::ExitRequested { .. }) {
+            if matches!(
+                event,
+                tauri::RunEvent::Exit | tauri::RunEvent::ExitRequested { .. }
+            ) {
                 if let Some(state) = app.try_state::<ServerProcess>() {
                     if let Ok(mut child) = state.0.lock() {
                         if let Some(mut child) = child.take() {

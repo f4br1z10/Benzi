@@ -52,6 +52,13 @@ async function main() {
   if (!headless) throw new Error("Chromium headless di Playwright non trovato. Esegui: npx playwright install chromium");
   await copyDirectory(path.join(browserRoot, headless.name), browserTarget);
 
+  const vcRedistResponse = await fetch("https://aka.ms/vc14/vc_redist.x64.exe");
+  if (!vcRedistResponse.ok) throw new Error(`Download Visual C++ Redistributable non riuscito: ${vcRedistResponse.status}`);
+  await fs.writeFile(
+    path.join(resources, "vc_redist.x64.exe"),
+    Buffer.from(await vcRedistResponse.arrayBuffer())
+  );
+
   console.log("Risorse desktop preparate in src-tauri/resources.");
 }
 

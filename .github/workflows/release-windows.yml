@@ -59,7 +59,7 @@ jobs:
           setlocal
           title Dipendenze Benzxi
           echo Download e installazione delle dipendenze Benzxi...
-          powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $dir=Join-Path $env:TEMP 'Benzxi-Dependencies'; New-Item -ItemType Directory -Force -Path $dir ^| Out-Null; $vc=Join-Path $dir 'vc_redist.x64.exe'; $wv=Join-Path $dir 'MicrosoftEdgeWebview2Setup.exe'; Invoke-WebRequest 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile $vc; Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $wv; Start-Process $vc -ArgumentList '/install','/quiet','/norestart' -Wait; Start-Process $wv -ArgumentList '/silent','/install' -Wait; Write-Host 'Dipendenze installate correttamente.' -ForegroundColor Green"
+          powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $dir=Join-Path $env:TEMP 'Benzxi-Dependencies'; New-Item -ItemType Directory -Force -Path $dir ^| Out-Null; $vc=Join-Path $dir 'vc_redist.x64.exe'; $wv=Join-Path $dir 'MicrosoftEdgeWebview2Setup.exe'; Invoke-WebRequest 'https://aka.ms/vc14/vc_redist.x64.exe' -OutFile $vc; Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $wv; Start-Process $vc -ArgumentList '/install','/quiet','/norestart' -Wait; Start-Process $wv -ArgumentList '/silent','/install' -Wait; Write-Host 'Dipendenze installate correttamente.' -ForegroundColor Green"
           if errorlevel 1 (
             echo Installazione non completata. Avviare questo file come amministratore.
             pause
@@ -83,7 +83,7 @@ jobs:
             "${{ steps.release_files.outputs.dependencies }}" `
             --repo "${{ github.repository }}" `
             --title "Benzxi ${{ github.ref_name }}" `
-            --notes "Installer Windows self-contained di Benzxi. Eseguire prima Installa-dipendenze.cmd se WebView2 o il runtime Visual C++ non sono presenti."
+            --notes "Installer Windows self-contained di Benzxi: include WebView2 offline e installa automaticamente il runtime Visual C++. Installa-dipendenze.cmd è fornito soltanto come strumento di riparazione."
 
       - name: Conserva i file anche come artifact
         uses: actions/upload-artifact@v4
