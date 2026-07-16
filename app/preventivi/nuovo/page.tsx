@@ -1,0 +1,1 @@
+import QuoteWizard from "@/components/QuoteWizard";export default function NewQuotePage(){return <><div className="page-header"><div><h1>Nuovo preventivo</h1><p>Compila i passaggi; i totali vengono aggiornati in tempo reale.</p></div></div><QuoteWizard/></>}

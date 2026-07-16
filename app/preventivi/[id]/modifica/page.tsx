@@ -1,0 +1,1 @@
+import QuoteWizard from "@/components/QuoteWizard";export default async function EditQuotePage({params}:{params:Promise<{id:string}>}){const{id}=await params;return <><div className="page-header"><div><h1>Modifica preventivo</h1><p>Aggiorna i dati e rigenera il PDF al termine.</p></div></div><QuoteWizard quoteId={Number(id)}/></>}

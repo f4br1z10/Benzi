@@ -1,0 +1,1 @@
+import ReminderManager from"@/components/ReminderManager";export default function RemindersPage(){return <><div className="page-header"><div><h1>Scadenze e promemoria</h1><p>Ricontatta i clienti nei cinque giorni prima della scadenza.</p></div></div><ReminderManager/></>}

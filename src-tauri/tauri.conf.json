@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Benzxi",
+  "version": "1.0.0",
+  "identifier": "it.benzxi.preventivi",
+  "build": {
+    "beforeBuildCommand": "npm run desktop:prepare",
+    "frontendDist": "frontend"
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "Benzxi",
+    "resources": [
+      "resources/server",
+      "resources/runtime/node.exe",
+      "resources/template-data",
+      "resources/browser"
+    ],
+    "icon": ["icons/icon.ico"],
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      },
+      "nsis": {
+        "displayLanguageSelector": false,
+        "languages": ["Italian"]
+      }
+    }
+  }
+}
+

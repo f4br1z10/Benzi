@@ -1,0 +1,1 @@
+import SettingsManager from"@/components/SettingsManager";export default function SettingsPage(){return <><div className="page-header"><div><h1>Impostazioni</h1><p>Dati aziendali, regole predefinite, categorie e testi del PDF.</p></div></div><SettingsManager/></>}
