@@ -168,7 +168,7 @@ pub fn run() {
                                 "main",
                                 WebviewUrl::External(window_url),
                             )
-                            .title("Benzxi - Gestione preventivi")
+                            .title("Gestione Preventivi")
                             .inner_size(1440.0, 900.0)
                             .min_inner_size(1100.0, 700.0)
                             .center()
@@ -194,7 +194,7 @@ pub fn run() {
             Ok(())
         })
         .build(tauri::generate_context!())
-        .expect("errore durante l'avvio di Benzxi")
+        .expect("errore durante l'avvio di Gestione Preventivi")
         .run(|app, event| {
             if matches!(
                 event,

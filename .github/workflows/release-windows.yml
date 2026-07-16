@@ -1,4 +1,4 @@
-name: Build e pubblica Benzxi per Windows
+name: Build e pubblica Gestione Preventivi per Windows
 
 on:
   push:
@@ -46,20 +46,46 @@ jobs:
       - name: Prepara i file della release
         id: release_files
         shell: pwsh
+        env:
+          WINDOWS_CERTIFICATE_BASE64: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
         run: |
           $releaseDir = Join-Path $PWD "release"
           New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
 
           $installer = Get-ChildItem "src-tauri/target/release/bundle/nsis" -Filter "*-setup.exe" -File | Select-Object -First 1
           if (-not $installer) { throw "Installer NSIS non trovato." }
-          Copy-Item $installer.FullName (Join-Path $releaseDir "Benzxi-Setup-x64.exe")
+
+          if ($env:WINDOWS_CERTIFICATE_BASE64 -and $env:WINDOWS_CERTIFICATE_PASSWORD) {
+            $certificate = Join-Path $env:RUNNER_TEMP "windows-code-signing.pfx"
+            try {
+              [IO.File]::WriteAllBytes($certificate, [Convert]::FromBase64String($env:WINDOWS_CERTIFICATE_BASE64))
+              $signTool = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Recurse -Filter "signtool.exe" |
+                Where-Object { $_.FullName -match '\\x64\\' } |
+                Sort-Object FullName -Descending |
+                Select-Object -First 1
+              if (-not $signTool) { throw "SignTool non trovato." }
+              & $signTool.FullName sign /f $certificate /p $env:WINDOWS_CERTIFICATE_PASSWORD /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 $installer.FullName
+              if ($LASTEXITCODE -ne 0) { throw "Firma digitale dell'installer non riuscita." }
+              & $signTool.FullName verify /pa /all /v $installer.FullName
+              if ($LASTEXITCODE -ne 0) { throw "Verifica della firma digitale non riuscita." }
+            } finally {
+              Remove-Item $certificate -Force -ErrorAction SilentlyContinue
+            }
+          } elseif ($env:WINDOWS_CERTIFICATE_BASE64 -or $env:WINDOWS_CERTIFICATE_PASSWORD) {
+            throw "Configurare entrambi i segreti di firma Windows."
+          } else {
+            Write-Warning "Installer non firmato: configurare i segreti WINDOWS_CERTIFICATE_BASE64 e WINDOWS_CERTIFICATE_PASSWORD."
+          }
+
+          Copy-Item $installer.FullName (Join-Path $releaseDir "Gestione-Preventivi-Setup-x64.exe")
 
           @'
           @echo off
           setlocal
-          title Dipendenze Benzxi
-          echo Download e installazione delle dipendenze Benzxi...
-          powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $dir=Join-Path $env:TEMP 'Benzxi-Dependencies'; New-Item -ItemType Directory -Force -Path $dir ^| Out-Null; $vc=Join-Path $dir 'vc_redist.x64.exe'; $wv=Join-Path $dir 'MicrosoftEdgeWebview2Setup.exe'; Invoke-WebRequest 'https://aka.ms/vc14/vc_redist.x64.exe' -OutFile $vc; Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $wv; Start-Process $vc -ArgumentList '/install','/quiet','/norestart' -Wait; Start-Process $wv -ArgumentList '/silent','/install' -Wait; Write-Host 'Dipendenze installate correttamente.' -ForegroundColor Green"
+          title Dipendenze Gestione Preventivi
+          echo Download e installazione delle dipendenze Gestione Preventivi...
+          powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $dir=Join-Path $env:TEMP 'Gestione-Preventivi-Dependencies'; New-Item -ItemType Directory -Force -Path $dir ^| Out-Null; $vc=Join-Path $dir 'vc_redist.x64.exe'; $wv=Join-Path $dir 'MicrosoftEdgeWebview2Setup.exe'; Invoke-WebRequest 'https://aka.ms/vc14/vc_redist.x64.exe' -OutFile $vc; Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $wv; Start-Process $vc -ArgumentList '/install','/quiet','/norestart' -Wait; Start-Process $wv -ArgumentList '/silent','/install' -Wait; Write-Host 'Dipendenze installate correttamente.' -ForegroundColor Green"
           if errorlevel 1 (
             echo Installazione non completata. Avviare questo file come amministratore.
             pause
@@ -69,7 +95,7 @@ jobs:
           pause
           '@ | Set-Content (Join-Path $releaseDir "Installa-dipendenze.cmd") -Encoding Ascii
 
-          "installer=$releaseDir\Benzxi-Setup-x64.exe" >> $env:GITHUB_OUTPUT
+          "installer=$releaseDir\Gestione-Preventivi-Setup-x64.exe" >> $env:GITHUB_OUTPUT
           "dependencies=$releaseDir\Installa-dipendenze.cmd" >> $env:GITHUB_OUTPUT
 
       - name: Pubblica la GitHub Release
@@ -82,12 +108,12 @@ jobs:
             "${{ steps.release_files.outputs.installer }}" `
             "${{ steps.release_files.outputs.dependencies }}" `
             --repo "${{ github.repository }}" `
-            --title "Benzxi ${{ github.ref_name }}" `
-            --notes "Installer Windows self-contained di Benzxi: include WebView2 offline e installa automaticamente il runtime Visual C++. Installa-dipendenze.cmd è fornito soltanto come strumento di riparazione."
+            --title "Gestione Preventivi ${{ github.ref_name }}" `
+            --notes "Installer Windows self-contained di Gestione Preventivi: include WebView2 offline e installa automaticamente il runtime Visual C++. Installa-dipendenze.cmd viene fornito soltanto come strumento di riparazione."
 
       - name: Conserva i file anche come artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Benzxi-Windows
+          name: Gestione-Preventivi-Windows
           path: release/*
           if-no-files-found: error

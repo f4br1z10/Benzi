@@ -1,5 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    benzxi_lib::run();
+    gestione_preventivi_lib::run();
 }

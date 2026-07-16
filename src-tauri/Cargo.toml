@@ -1,12 +1,12 @@
 [package]
-name = "benzxi"
-version = "1.0.2"
+name = "gestione-preventivi"
+version = "1.0.3"
 description = "Gestionale desktop per preventivi"
-authors = ["Benzxi"]
+authors = ["Gestione Preventivi"]
 edition = "2021"
 
 [lib]
-name = "benzxi_lib"
+name = "gestione_preventivi_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
