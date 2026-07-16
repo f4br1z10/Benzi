@@ -56,7 +56,7 @@ fn available_port() -> std::io::Result<u16> {
 }
 
 fn server_is_ready(port: u16) -> bool {
-    let address = ("127.0.0.1", port).into();
+    let address = std::net::SocketAddr::from(([127, 0, 0, 1], port));
     let Ok(mut stream) = TcpStream::connect_timeout(&address, Duration::from_millis(500)) else {
         return false;
     };
