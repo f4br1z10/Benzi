@@ -15,8 +15,9 @@ export const STATUS_LABELS: Record<string, string> = {
 export const QUOTE_ITEM_TYPES = ["PRODOTTO", "SERVIZIO", "LIBERA", "TITOLO", "TESTO"] as const;
 
 export const INITIAL_CATEGORIES = [
-  "Climatizzatore", "Caldaia", "Fotovoltaico", "Pompa di calore",
-  "Solare termico", "Wallbox", "Impiantistica", "Altro"
+  "Efficientamento energetico", "Fotovoltaico", "Pompa di calore",
+  "Climatizzatore", "Caldaia a gas", "Wallbox", "Impiantistica",
+  "Multiprodotto"
 ];
 
 export const TECHNICAL_CATEGORY_FIELDS: Record<string, { key: string; label: string; type?: string; options?: string[] }[]> = {
@@ -26,7 +27,7 @@ export const TECHNICAL_CATEGORY_FIELDS: Record<string, { key: string; label: str
     { key: "marca", label: "Marca" }, { key: "modello", label: "Modello" }, { key: "potenza", label: "Potenza" },
     { key: "btu", label: "BTU" }, { key: "opereAccessori", label: "Opere e accessori", type: "textarea" }
   ],
-  caldaia: [
+  "caldaia-a-gas": [
     { key: "marca", label: "Marca" }, { key: "modello", label: "Modello" }, { key: "potenza", label: "Potenza" },
     { key: "tipoCaldaia", label: "Tipo caldaia" }, { key: "defangatore", label: "Defangatore magnetico", type: "checkbox" },
     { key: "filtroAnticalcare", label: "Filtro anticalcare", type: "checkbox" }, { key: "connessioniIdrauliche", label: "Connessioni idrauliche", type: "checkbox" },

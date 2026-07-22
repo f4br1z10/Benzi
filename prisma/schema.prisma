@@ -175,6 +175,7 @@ model Quote {
   technicalConfiguration      String?
   paymentMethod               String?
   paymentConditions           String?
+  paymentSchedule             String?
   depositPercent              Decimal                    @default(0)
   depositCents                Int                        @default(0)
   balancePercent              Decimal                    @default(100)
@@ -183,6 +184,9 @@ model Quote {
   financingType               String?
   financingNotes              String?
   incentive                   String?
+  incentivePercent            Decimal                    @default(0)
+  incentiveAmountCents        Int                        @default(0)
+  netAfterIncentiveCents      Int                        @default(0)
   fiscalNote                  String?
   visibleNotes                String?
   additionalConditions        String?

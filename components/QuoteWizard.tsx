@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { calculateQuote, paymentSplit } from "@/lib/calculations";
+import { calculateQuote, incentiveNet, paymentSplit } from "@/lib/calculations";
 import { formatCurrency, parseEuroToCents } from "@/lib/format";
 import { TECHNICAL_CATEGORY_FIELDS } from "@/lib/constants";
 import QuotePreview from "@/components/QuotePreview";
@@ -40,11 +40,14 @@ const defaults: any = {
   technicalConfiguration: {},
   paymentMethod: "Bonifico bancario",
   paymentConditions: "",
+  paymentSchedule: [],
   depositPercent: 0,
   financingAvailable: false,
   financingType: "TOTALE",
   financingNotes: "",
   incentive: "Nessun incentivo",
+  incentivePercent: 0,
+  incentiveAmount: "0,00",
   fiscalNote: "",
   visibleNotes: "",
   additionalConditions: "",
@@ -73,6 +76,10 @@ export default function QuoteWizard({ quoteId }: Props) {
   const autoDeposit = useRef(false);
   const form = useForm<any>({ defaultValues: defaults });
   const lines = useFieldArray({ control: form.control, name: "items" });
+  const scheduleLines = useFieldArray({
+    control: form.control,
+    name: "paymentSchedule",
+  });
   const values = form.watch();
   const selectedCustomer = customers.find(
     (c) => c.id === Number(values.customerId),
@@ -111,6 +118,11 @@ export default function QuoteWizard({ quoteId }: Props) {
           categoryId: String(q.categoryId || ""),
           quoteDate: new Date(q.quoteDate).toISOString().slice(0, 10),
           depositPercent: Number(q.depositPercent),
+          incentivePercent: Number(q.incentivePercent || 0),
+          incentiveAmount: money(q.incentiveAmountCents || 0),
+          paymentSchedule: q.paymentSchedule
+            ? JSON.parse(q.paymentSchedule)
+            : [],
           selectedAttachmentIds:
             q.attachmentSelections
               ?.filter((entry: any) => entry.selected)
@@ -158,10 +170,16 @@ export default function QuoteWizard({ quoteId }: Props) {
     totals.totalCents,
     Number(values.depositPercent) || 0,
   );
+  const incentive = incentiveNet(
+    totals.totalCents,
+    Number(values.incentivePercent) || 0,
+    cents(values.incentiveAmount),
+  );
   useEffect(() => {
     if (
       !autoDeposit.current &&
       settings &&
+      values.paymentMethod === "Misto" &&
       totals.totalCents > settings.depositThresholdCents &&
       Number(form.getValues("depositPercent")) === 0
     ) {
@@ -172,7 +190,7 @@ export default function QuoteWizard({ quoteId }: Props) {
       );
       autoDeposit.current = true;
     }
-  }, [totals.totalCents, settings]);
+  }, [totals.totalCents, settings, values.paymentMethod]);
   function addProduct(id: string) {
     const p = products.find((x) => x.id === Number(id));
     if (!p) return;
@@ -180,12 +198,35 @@ export default function QuoteWizard({ quoteId }: Props) {
       ...emptyLine,
       type: "PRODOTTO",
       productId: p.id,
+      title: p.name,
       description: p.quoteDescription || p.description || p.name,
       unit: p.unit,
       unitPrice: money(p.salePriceInclVatCents),
       vatRate: Number(p.vatRate),
       purchaseCost: money(p.purchaseCostCents),
+      configurationSnapshot: JSON.stringify({
+        brand: p.brand,
+        model: p.model,
+        imagePath: p.imagePath,
+      }),
     });
+    const categoryIds = new Set(
+      [...(form.getValues("items") || []), { productId: p.id }]
+        .map((item: any) =>
+          products.find((product: any) => product.id === Number(item.productId))
+            ?.categoryId,
+        )
+        .filter(Boolean),
+    );
+    const nextCategory =
+      categoryIds.size > 1
+        ? categories.find((category) => category.slug === "multiprodotto")
+        : categories.find((category) => category.id === p.categoryId);
+    if (nextCategory) {
+      form.setValue("categoryId", String(nextCategory.id), {
+        shouldDirty: true,
+      });
+    }
   }
   function addService(id: string) {
     const s = services.find((x) => x.id === Number(id));
@@ -194,6 +235,7 @@ export default function QuoteWizard({ quoteId }: Props) {
       ...emptyLine,
       type: "SERVIZIO",
       serviceId: s.id,
+      title: s.name,
       description: s.description || s.name,
       unit: s.unit,
       unitPrice: money(s.defaultPriceCents),
@@ -218,11 +260,31 @@ export default function QuoteWizard({ quoteId }: Props) {
       setToast({ m: "Inserisci almeno una riga", e: true });
       return;
     }
+    if (v.paymentMethod === "Stato di avanzamento lavori") {
+      const scheduleTotal = (v.paymentSchedule || []).reduce(
+        (sum: number, entry: any) => sum + (Number(entry.percent) || 0),
+        0,
+      );
+      if (!v.paymentSchedule?.length || Math.abs(scheduleTotal - 100) > 0.01) {
+        setStep(3);
+        setToast({
+          m: "Le percentuali dello stato di avanzamento lavori devono totalizzare 100%",
+          e: true,
+        });
+        return;
+      }
+    }
     const body = {
       ...v,
       status,
       customerId: Number(v.customerId),
       categoryId: v.categoryId ? Number(v.categoryId) : null,
+      incentiveAmountCents: ["Detrazione 50%", "Detrazione 65%"].includes(
+        v.incentive,
+      )
+        ? 0
+        : cents(v.incentiveAmount),
+      financingAvailable: v.paymentMethod === "Finanziamento",
       quoteDate: new Date(`${v.quoteDate}T12:00:00`),
       installationAddressSnapshot:
         v.installationAddressSnapshot ||
@@ -662,24 +724,31 @@ export default function QuoteWizard({ quoteId }: Props) {
                   <label>Metodo di pagamento</label>
                   <select
                     className="select"
-                    {...form.register("paymentMethod")}
+                    {...form.register("paymentMethod", {
+                      onChange: (event) => {
+                        const method = event.target.value;
+                        if (
+                          method === "Stato di avanzamento lavori" &&
+                          !form.getValues("paymentSchedule")?.length
+                        ) {
+                          scheduleLines.append([
+                            { label: "Acconto", percent: 50, dueDate: "" },
+                            { label: "Saldo", percent: 50, dueDate: "" },
+                          ]);
+                        }
+                        if (method !== "Misto") {
+                          form.setValue("depositPercent", 0, {
+                            shouldDirty: true,
+                          });
+                        }
+                      },
+                    })}
                   >
                     <option>Bonifico bancario</option>
-                    <option>Carta</option>
-                    <option>Contanti nei limiti di legge</option>
                     <option>Finanziamento</option>
-                    <option>Altro</option>
+                    <option>Misto</option>
+                    <option>Stato di avanzamento lavori</option>
                   </select>
-                </div>
-                <div className="field">
-                  <label>Percentuale acconto</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    className="input"
-                    {...form.register("depositPercent")}
-                  />
                 </div>
                 <div className="field span-full">
                   <label>Condizioni di pagamento</label>
@@ -688,49 +757,86 @@ export default function QuoteWizard({ quoteId }: Props) {
                     {...form.register("paymentConditions")}
                   />
                 </div>
-                <div className="field">
-                  <label>Importo acconto</label>
-                  <input
-                    className="input"
-                    value={formatCurrency(split.depositCents)}
-                    disabled
-                  />
-                </div>
-                <div className="field">
-                  <label>Saldo</label>
-                  <input
-                    className="input"
-                    value={formatCurrency(split.balanceCents)}
-                    disabled
-                  />
-                </div>
-                <label className="actions span-full">
-                  <input
-                    type="checkbox"
-                    {...form.register("financingAvailable")}
-                  />{" "}
-                  Finanziamento disponibile
-                </label>
-                {values.financingAvailable && (
+                {values.paymentMethod === "Misto" && (
+                  <>
+                    <div className="field">
+                      <label>Percentuale acconto</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        className="input"
+                        {...form.register("depositPercent")}
+                      />
+                    </div>
+                    <div className="field">
+                      <label>Importo acconto</label>
+                      <input
+                        className="input"
+                        value={formatCurrency(split.depositCents)}
+                        disabled
+                      />
+                    </div>
+                    <div className="field">
+                      <label>Saldo ({split.balancePercent}%)</label>
+                      <input
+                        className="input"
+                        value={formatCurrency(split.balanceCents)}
+                        disabled
+                      />
+                    </div>
+                  </>
+                )}
+                {values.paymentMethod === "Finanziamento" && (
                   <>
                     <div className="field">
                       <label>Tipo finanziamento</label>
-                      <select
-                        className="select"
-                        {...form.register("financingType")}
-                      >
+                      <select className="select" {...form.register("financingType")}>
                         <option value="TOTALE">Totale</option>
                         <option value="PARZIALE">Parziale</option>
                       </select>
                     </div>
                     <div className="field span-full">
                       <label>Note finanziamento</label>
-                      <textarea
-                        className="textarea"
-                        {...form.register("financingNotes")}
-                      />
+                      <textarea className="textarea" {...form.register("financingNotes")} />
                     </div>
                   </>
+                )}
+                {values.paymentMethod === "Stato di avanzamento lavori" && (
+                  <div className="span-full">
+                    <div className="section-title">Rate e scadenze SAL</div>
+                    <div className="stack" style={{ marginTop: 12 }}>
+                      {scheduleLines.fields.map((entry, index) => {
+                        const percent = Number(
+                          values.paymentSchedule?.[index]?.percent,
+                        ) || 0;
+                        return (
+                          <div className="form-grid form-grid-3" key={entry.id}>
+                            <div className="field">
+                              <label>Rata</label>
+                              <input className="input" {...form.register(`paymentSchedule.${index}.label`)} />
+                            </div>
+                            <div className="field">
+                              <label>Percentuale</label>
+                              <input type="number" min="0" max="100" step="0.01" className="input" {...form.register(`paymentSchedule.${index}.percent`)} />
+                            </div>
+                            <div className="field">
+                              <label>Scadenza</label>
+                              <input type="date" className="input" {...form.register(`paymentSchedule.${index}.dueDate`)} />
+                            </div>
+                            <div className="actions span-full">
+                              <strong>{formatCurrency(Math.round(totals.totalCents * percent / 100))}</strong>
+                              <button type="button" className="btn btn-danger btn-sm" onClick={() => scheduleLines.remove(index)}>Elimina rata</button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <div className="actions">
+                        <button type="button" className="btn btn-secondary" onClick={() => scheduleLines.append({ label: `Rata ${scheduleLines.fields.length + 1}`, percent: 0, dueDate: "" })}>+ Aggiungi rata</button>
+                        <span className="help-text">Totale percentuali: {(values.paymentSchedule || []).reduce((sum: number, entry: any) => sum + (Number(entry.percent) || 0), 0)}%</span>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
             )}
@@ -738,13 +844,45 @@ export default function QuoteWizard({ quoteId }: Props) {
               <div className="form-grid">
                 <div className="field">
                   <label>Incentivo richiesto</label>
-                  <select className="select" {...form.register("incentive")}>
+                  <select className="select" {...form.register("incentive", {
+                    onChange: (event) => {
+                      const selected = event.target.value;
+                      form.setValue(
+                        "incentivePercent",
+                        selected === "Detrazione 50%"
+                          ? 50
+                          : selected === "Detrazione 65%"
+                            ? 65
+                            : 0,
+                        { shouldDirty: true },
+                      );
+                      if (selected === "Nessun incentivo") {
+                        form.setValue("incentiveAmount", "0,00", {
+                          shouldDirty: true,
+                        });
+                      }
+                    },
+                  })}>
                     <option>Detrazione 50%</option>
                     <option>Detrazione 65%</option>
                     <option>Conto Termico</option>
                     <option>Nessun incentivo</option>
                     <option>Altro</option>
                   </select>
+                </div>
+                {["Conto Termico", "Altro"].includes(values.incentive) && (
+                  <div className="field">
+                    <label>Importo incentivo (€)</label>
+                    <input className="input" inputMode="decimal" {...form.register("incentiveAmount")} />
+                  </div>
+                )}
+                <div className="field">
+                  <label>Incentivo calcolato</label>
+                  <input className="input" value={formatCurrency(incentive.incentiveAmountCents)} disabled />
+                </div>
+                <div className="field">
+                  <label>Totale da pagare al netto dell’incentivo</label>
+                  <input className="input" value={formatCurrency(incentive.netAfterIncentiveCents)} disabled />
                 </div>
                 <div className="field">
                   <label>Schede tecniche nel PDF</label>

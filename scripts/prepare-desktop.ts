@@ -26,6 +26,7 @@ async function main() {
   }
   await copyDirectory(standalone, serverTarget);
   await copyDirectory(path.join(root, ".next", "static"), path.join(serverTarget, ".next", "static"));
+  await copyDirectory(path.join(root, "public"), path.join(serverTarget, "public"));
 
   const nodeExecutable = process.execPath;
   await fs.mkdir(path.join(resources, "runtime"), { recursive: true });

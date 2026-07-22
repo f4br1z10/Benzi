@@ -75,6 +75,14 @@ I Suoi documenti non saranno diffusi, ma verranno comunicati esclusivamente a:
 - Il commercialista/consulente fiscale del Titolare per la contabilità.`;
 
 async function seed() {
+  const legacyBoiler = await prisma.category.findUnique({ where: { slug: "caldaia" } });
+  const gasBoiler = await prisma.category.findUnique({ where: { slug: "caldaia-a-gas" } });
+  if (legacyBoiler && !gasBoiler) {
+    await prisma.category.update({
+      where: { id: legacyBoiler.id },
+      data: { name: "Caldaia a gas", slug: "caldaia-a-gas" },
+    });
+  }
   for (const [position, name] of INITIAL_CATEGORIES.entries()) {
     await prisma.category.upsert({
       where: { slug: slugify(name) },
@@ -83,7 +91,7 @@ async function seed() {
     });
   }
 
-  const paymentNames = ["Bonifico bancario", "Carta", "Contanti nei limiti di legge", "Finanziamento", "Altro"];
+  const paymentNames = ["Bonifico bancario", "Finanziamento", "Misto", "Stato di avanzamento lavori"];
   for (const [position, name] of paymentNames.entries()) {
     await prisma.paymentMethod.upsert({ where: { name }, update: { position }, create: { name, position } });
   }
@@ -110,7 +118,7 @@ async function seed() {
   await prisma.legalDocument.upsert({ where: { type: "PRIVACY" }, update: {}, create: { type: "PRIVACY", title: "Informativa privacy e richiesta documenti per fatturazione e incentivi fiscali", content: PRIVACY } });
 
   const serviceSeeds = ["Installazione", "Manodopera", "Sopralluogo", "Smaltimento", "Pratica ENEA", "Dichiarazione di conformità", "Pratica FGAS", "Lavaggio impianto", "Intubamento canna fumaria", "Noleggio piattaforma aerea"];
-  const otherCategory = await prisma.category.findUniqueOrThrow({ where: { slug: "altro" } });
+  const otherCategory = await prisma.category.findUniqueOrThrow({ where: { slug: "impiantistica" } });
   for (const name of serviceSeeds) {
     const existing = await prisma.service.findFirst({ where: { name } });
     if (!existing) await prisma.service.create({ data: { name, categoryId: otherCategory.id, description: name, unit: "corpo", vatRate: 22 } });
@@ -156,6 +164,7 @@ async function seed() {
         deliveryTime: "30 giorni", customerSnapshot, installationAddressSnapshot: JSON.stringify(customer.addresses.find((a) => a.type === "INSTALLAZIONE")),
         categorySnapshot: JSON.stringify(clima), paymentMethod: "Bonifico bancario", paymentConditions: "Acconto 50% per ordine\nSaldo 50% alla consegna",
         depositPercent: 50, depositCents: 381500, balancePercent: 50, balanceCents: 381500, incentive: "Detrazione 50%",
+        incentivePercent: 50, incentiveAmountCents: 381500, netAfterIncentiveCents: 381500,
         fiscalNote: "*L’IVA calcolata rientra nell’agevolazione per beni significativi Articolo 7, comma 1, lettera b, della Legge 488/1999",
         visibleNotes: "È possibile richiesta di finanziamento totale o parziale.\nAll’accettazione del preventivo sarà necessario un sopralluogo da parte degli installatori per valutare l’effettiva realizzazione dell’opera.\nAccensioni con attivazione garanzia Samsung inclusa nel prezzo.",
         subtotalCents: 625410, vatCents: 137590, totalCents: 763000, estimatedMarginCents: 165410, issuedAt: quoteDate,

@@ -989,7 +989,7 @@ dependencies = [
 
 [[package]]
 name = "gestione-preventivi"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "tauri",
  "tauri-build",

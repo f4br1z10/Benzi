@@ -62,3 +62,19 @@ export function paymentSplit(totalCents: number, depositPercent: number) {
   const depositCents = round(totalCents * Math.min(100, Math.max(0, depositPercent)) / 100);
   return { depositCents, balanceCents: totalCents - depositCents, balancePercent: 100 - depositPercent };
 }
+
+export function incentiveNet(
+  totalCents: number,
+  incentivePercent: number,
+  manualAmountCents = 0,
+) {
+  const safeTotal = Math.max(0, Math.round(totalCents));
+  const safePercent = Math.min(100, Math.max(0, Number(incentivePercent) || 0));
+  const calculated = Math.round((safeTotal * safePercent) / 100);
+  const requested = manualAmountCents > 0 ? Math.round(manualAmountCents) : calculated;
+  const incentiveAmountCents = Math.min(safeTotal, Math.max(0, requested));
+  return {
+    incentiveAmountCents,
+    netAfterIncentiveCents: safeTotal - incentiveAmountCents,
+  };
+}

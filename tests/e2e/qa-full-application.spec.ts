@@ -176,6 +176,7 @@ test.describe.serial("campagna QA completa SG Clima", () => {
     await expect(page.locator(".summary-total strong")).toContainText("1.445,50");
 
     await page.getByRole("button", { name: /4\. Pagamento/ }).click();
+    await page.locator('[name="paymentMethod"]').selectOption("Misto");
     await page.locator('[name="depositPercent"]').fill("40");
     await expect(page.getByLabel("Importo acconto")).toHaveValue(/578,20/);
 

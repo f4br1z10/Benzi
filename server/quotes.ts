@@ -6,6 +6,7 @@ import { calculateExpiryDate, shouldAutoExpire } from "@/lib/dates";
 import {
   calculateLine,
   calculateQuote,
+  incentiveNet,
   paymentSplit,
 } from "@/lib/calculations";
 import { nextQuoteNumber } from "@/lib/quote-number";
@@ -88,10 +89,16 @@ export async function createQuote(raw: unknown) {
     const totals = calculateQuote(items);
     const depositPercent =
       input.depositPercent ||
-      (totals.totalCents > (settings?.depositThresholdCents ?? 299900)
+      (input.paymentMethod === "Misto" &&
+      totals.totalCents > (settings?.depositThresholdCents ?? 299900)
         ? Number(settings?.defaultDepositPercent ?? 50)
         : 0);
     const split = paymentSplit(totals.totalCents, depositPercent);
+    const incentive = incentiveNet(
+      totals.totalCents,
+      input.incentivePercent,
+      input.incentiveAmountCents,
+    );
     const expiryDate = calculateExpiryDate(input.quoteDate, input.validityDays);
     const number = await quoteNumber(tx, input.quoteDate);
     const status = input.status;
@@ -114,6 +121,9 @@ export async function createQuote(raw: unknown) {
         technicalConfiguration: input.technicalConfiguration,
         paymentMethod: input.paymentMethod,
         paymentConditions: input.paymentConditions,
+        paymentSchedule: input.paymentSchedule.length
+          ? json(input.paymentSchedule)
+          : null,
         depositPercent,
         depositCents: split.depositCents,
         balancePercent: split.balancePercent,
@@ -122,6 +132,8 @@ export async function createQuote(raw: unknown) {
         financingType: input.financingType,
         financingNotes: input.financingNotes,
         incentive: input.incentive,
+        incentivePercent: input.incentivePercent,
+        ...incentive,
         fiscalNote: input.fiscalNote,
         visibleNotes: input.visibleNotes,
         additionalConditions: input.additionalConditions,
@@ -171,6 +183,11 @@ export async function updateQuote(id: number, raw: unknown) {
     ]);
     const totals = calculateQuote(items);
     const split = paymentSplit(totals.totalCents, input.depositPercent);
+    const incentive = incentiveNet(
+      totals.totalCents,
+      input.incentivePercent,
+      input.incentiveAmountCents,
+    );
     const expiryDate = calculateExpiryDate(input.quoteDate, input.validityDays);
     await tx.quoteItem.deleteMany({ where: { quoteId: id } });
     const statusChanged = current.status !== input.status;
@@ -193,6 +210,9 @@ export async function updateQuote(id: number, raw: unknown) {
         technicalConfiguration: input.technicalConfiguration,
         paymentMethod: input.paymentMethod,
         paymentConditions: input.paymentConditions,
+        paymentSchedule: input.paymentSchedule.length
+          ? json(input.paymentSchedule)
+          : null,
         depositPercent: input.depositPercent,
         depositCents: split.depositCents,
         balancePercent: split.balancePercent,
@@ -201,6 +221,8 @@ export async function updateQuote(id: number, raw: unknown) {
         financingType: input.financingType,
         financingNotes: input.financingNotes,
         incentive: input.incentive,
+        incentivePercent: input.incentivePercent,
+        ...incentive,
         fiscalNote: input.fiscalNote,
         visibleNotes: input.visibleNotes,
         additionalConditions: input.additionalConditions,
@@ -303,6 +325,7 @@ export async function duplicateQuote(id: number) {
         technicalConfiguration: source.technicalConfiguration,
         paymentMethod: source.paymentMethod,
         paymentConditions: source.paymentConditions,
+        paymentSchedule: source.paymentSchedule,
         depositPercent: source.depositPercent,
         depositCents: source.depositCents,
         balancePercent: source.balancePercent,
@@ -311,6 +334,9 @@ export async function duplicateQuote(id: number) {
         financingType: source.financingType,
         financingNotes: source.financingNotes,
         incentive: source.incentive,
+        incentivePercent: source.incentivePercent,
+        incentiveAmountCents: source.incentiveAmountCents,
+        netAfterIncentiveCents: source.netAfterIncentiveCents,
         fiscalNote: source.fiscalNote,
         visibleNotes: source.visibleNotes,
         additionalConditions: source.additionalConditions,
