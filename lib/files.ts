@@ -4,6 +4,9 @@ import crypto from "node:crypto";
 
 export const workspaceRoot = path.resolve(process.env.GESTIONE_PREVENTIVI_DATA_DIR || process.cwd());
 export const storageRoot = path.resolve(workspaceRoot, "storage");
+export const generatedQuotesRoot = path.resolve(
+  process.env.GESTIONE_PREVENTIVI_PDF_DIR || path.join(storageRoot, "generated-quotes"),
+);
 
 export const storageDirectories = [
   "logos", "product-attachments", "product-images", "generated-quotes", "backups", "logs", "imports"

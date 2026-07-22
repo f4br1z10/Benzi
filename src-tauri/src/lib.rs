@@ -104,6 +104,8 @@ pub fn run() {
             let handle = app.handle().clone();
             let resource_dir = app.path().resource_dir()?;
             let data_dir = app.path().app_local_data_dir()?;
+            let pdf_dir = app.path().document_dir()?.join("Preventivi SG Clima");
+            fs::create_dir_all(&pdf_dir)?;
             initialize_data(
                 &resource_dir.join("resources").join("template-data"),
                 &data_dir,
@@ -144,6 +146,7 @@ pub fn run() {
                 .env("APP_URL", &url)
                 .env("DATABASE_URL", database_url)
                 .env("GESTIONE_PREVENTIVI_DATA_DIR", &data_dir)
+                .env("GESTIONE_PREVENTIVI_PDF_DIR", &pdf_dir)
                 .stdin(Stdio::null())
                 .stdout(Stdio::from(server_log.try_clone()?))
                 .stderr(Stdio::from(server_log));

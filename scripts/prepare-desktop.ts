@@ -24,6 +24,9 @@ async function main() {
   if (!(await exists(path.join(standalone, "server.js")))) {
     throw new Error("Build standalone Next.js non trovato.");
   }
+  if (!(await exists(path.join(standalone, "node_modules", "next", "package.json")))) {
+    throw new Error("Build standalone incompleto: modulo Next.js mancante. Esegui la build con node_modules locale, non tramite collegamento.");
+  }
   await copyDirectory(standalone, serverTarget);
   await copyDirectory(path.join(root, ".next", "static"), path.join(serverTarget, ".next", "static"));
   await copyDirectory(path.join(root, "public"), path.join(serverTarget, "public"));

@@ -3,7 +3,7 @@ import path from "node:path";
 import { chromium } from "playwright";
 import { PDFDocument } from "pdf-lib";
 import { prisma } from "@/server/prisma";
-import { ensureStorageDirectories, sanitizeFilename, storageRoot, workspaceRoot } from "@/lib/files";
+import { ensureStorageDirectories, generatedQuotesRoot, sanitizeFilename, workspaceRoot } from "@/lib/files";
 import { customerDisplayName, formatCurrency, formatDate } from "@/lib/format";
 import { calculateSignificantGoodsVat, incentiveNet } from "@/lib/calculations";
 
@@ -141,7 +141,7 @@ export async function quoteHtml(quoteId: number) {
 export async function generateQuotePdf(quoteId: number, outputOverride?: string) {
   await ensureStorageDirectories(); const { quote, html } = await quoteHtml(quoteId); const customer = quote.customer;
   const baseName = sanitizeFilename(`Preventivo_${quote.number}_${customerDisplayName(customer)}.pdf`);
-  const target = outputOverride || path.join(storageRoot, "generated-quotes", baseName);
+  const target = outputOverride || path.join(generatedQuotesRoot, baseName);
   let browser;
   try { browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined }); }
   catch { throw new Error("Browser PDF non installato. Esegui prima: npm run setup"); }
