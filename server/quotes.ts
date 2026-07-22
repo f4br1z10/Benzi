@@ -5,7 +5,7 @@ import { quoteSchema } from "@/lib/validators";
 import { calculateExpiryDate, shouldAutoExpire } from "@/lib/dates";
 import {
   calculateLine,
-  calculateQuote,
+  calculateSignificantGoodsVat,
   incentiveNet,
   paymentSplit,
 } from "@/lib/calculations";
@@ -78,15 +78,37 @@ async function prepareItems(tx: Prisma.TransactionClient, input: QuoteInput) {
   });
 }
 
+function applyAutomaticVat(items: any[]) {
+  const calculation = calculateSignificantGoodsVat(items);
+  const calculatedItems = items.map((item, index) => {
+    const line = calculation.lineTotals[index];
+    return {
+      ...item,
+      subtotalCents: line.subtotalCents,
+      discountCents: line.discountCents,
+      vatCents: line.vatCents,
+      totalCents: line.totalCents,
+    };
+  });
+  const totals = {
+    subtotalCents: calculation.subtotalCents,
+    discountCents: calculation.discountCents,
+    vatCents: calculation.vatCents,
+    totalCents: calculation.totalCents,
+    estimatedMarginCents: calculation.estimatedMarginCents,
+  };
+  return { items: calculatedItems, totals };
+}
+
 export async function createQuote(raw: unknown) {
   const input = quoteSchema.parse(raw);
   return prisma.$transaction(async (tx) => {
-    const [settings, snap, items] = await Promise.all([
+    const [settings, snap, preparedItems] = await Promise.all([
       tx.companySettings.findUnique({ where: { id: 1 } }),
       snapshots(tx, input),
       prepareItems(tx, input),
     ]);
-    const totals = calculateQuote(items);
+    const { items, totals } = applyAutomaticVat(preparedItems);
     const depositPercent =
       input.depositPercent ||
       (input.paymentMethod === "Misto" &&
@@ -177,11 +199,11 @@ export async function updateQuote(id: number, raw: unknown) {
   return prisma.$transaction(async (tx) => {
     const current = await tx.quote.findUnique({ where: { id } });
     if (!current) throw new Error("Preventivo non trovato.");
-    const [snap, items] = await Promise.all([
+    const [snap, preparedItems] = await Promise.all([
       snapshots(tx, input),
       prepareItems(tx, input),
     ]);
-    const totals = calculateQuote(items);
+    const { items, totals } = applyAutomaticVat(preparedItems);
     const split = paymentSplit(totals.totalCents, input.depositPercent);
     const incentive = incentiveNet(
       totals.totalCents,

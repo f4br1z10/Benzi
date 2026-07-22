@@ -15,7 +15,7 @@ export async function GET(_: NextRequest, { params }: Context) {
   if (!product?.imagePath) return jsonError("Immagine non disponibile.", 404);
   try {
     const bytes = await fs.readFile(product.imagePath);
-    return new NextResponse(bytes, { headers: { "Content-Type": mimeByExtension[path.extname(product.imagePath).toLowerCase()] || "application/octet-stream", "Cache-Control": "private, max-age=3600" } });
+    return new NextResponse(bytes, { headers: { "Content-Type": mimeByExtension[path.extname(product.imagePath).toLowerCase()] || "application/octet-stream", "Cache-Control": "private, no-store" } });
   } catch { return jsonError("Immagine non disponibile.", 404); }
 }
 

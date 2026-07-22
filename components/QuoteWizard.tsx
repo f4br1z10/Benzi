@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { calculateQuote, incentiveNet, paymentSplit } from "@/lib/calculations";
+import { calculateSignificantGoodsVat, incentiveNet, paymentSplit } from "@/lib/calculations";
 import { formatCurrency, parseEuroToCents } from "@/lib/format";
 import { TECHNICAL_CATEGORY_FIELDS } from "@/lib/constants";
 import QuotePreview from "@/components/QuotePreview";
@@ -10,6 +10,7 @@ import Toast from "@/components/Toast";
 type Props = { quoteId?: number };
 const money = (c: number) => (c / 100).toFixed(2).replace(".", ",");
 const cents = parseEuroToCents;
+const netUnitPrice = (centsValue: number, includesVat: boolean, vatRate: number) => includesVat ? Math.round(centsValue / (1 + (Number(vatRate) || 0) / 100)) : centsValue;
 const today = () => new Date().toISOString().slice(0, 10);
 const emptyLine = {
   type: "LIBERA",
@@ -19,10 +20,10 @@ const emptyLine = {
   quantity: 1,
   unit: "pz",
   unitPrice: "0,00",
-  priceIncludesVat: true,
+  priceIncludesVat: false,
   discountPercent: 0,
   discountFixed: "0,00",
-  vatRate: 22,
+  vatRate: 10,
   purchaseCost: "0,00",
   configurationSnapshot: "",
 };
@@ -53,7 +54,7 @@ const defaults: any = {
   additionalConditions: "",
   attachmentMode: "NESSUNO",
   selectedAttachmentIds: [],
-  items: [{ ...emptyLine }],
+  items: [],
 };
 export default function QuoteWizard({ quoteId }: Props) {
   const router = useRouter();
@@ -135,7 +136,8 @@ export default function QuoteWizard({ quoteId }: Props) {
             quantity: Number(i.quantity),
             discountPercent: Number(i.discountPercent),
             vatRate: Number(i.vatRate),
-            unitPrice: money(i.unitPriceCents),
+            unitPrice: money(netUnitPrice(i.unitPriceCents, i.priceIncludesVat !== false, Number(i.vatRate))),
+            priceIncludesVat: false,
             discountFixed: money(i.discountFixedCents),
             purchaseCost: money(i.purchaseCostCents),
           })),
@@ -165,7 +167,7 @@ export default function QuoteWizard({ quoteId }: Props) {
     vatRate: Number(i.vatRate) || 0,
     purchaseCostCents: cents(i.purchaseCost),
   }));
-  const totals = calculateQuote(calcItems);
+  const totals = calculateSignificantGoodsVat(calcItems);
   const split = paymentSplit(
     totals.totalCents,
     Number(values.depositPercent) || 0,
@@ -201,8 +203,9 @@ export default function QuoteWizard({ quoteId }: Props) {
       title: p.name,
       description: p.quoteDescription || p.description || p.name,
       unit: p.unit,
-      unitPrice: money(p.salePriceInclVatCents),
-      vatRate: Number(p.vatRate),
+      unitPrice: money(p.salePriceExclVatCents || netUnitPrice(p.salePriceInclVatCents, true, Number(p.vatRate))),
+      priceIncludesVat: false,
+      vatRate: 10,
       purchaseCost: money(p.purchaseCostCents),
       configurationSnapshot: JSON.stringify({
         brand: p.brand,
@@ -239,7 +242,8 @@ export default function QuoteWizard({ quoteId }: Props) {
       description: s.description || s.name,
       unit: s.unit,
       unitPrice: money(s.defaultPriceCents),
-      vatRate: Number(s.vatRate),
+      priceIncludesVat: false,
+      vatRate: 10,
     });
   }
   function duplicateLine(i: number) {
@@ -300,6 +304,8 @@ export default function QuoteWizard({ quoteId }: Props) {
         ...i,
         position: index,
         unitPriceCents: cents(i.unitPrice),
+        priceIncludesVat: false,
+        vatRate: 10,
         discountFixedCents: cents(i.discountFixed),
         purchaseCostCents: cents(i.purchaseCost),
         configurationSnapshot: i.configurationSnapshot || null,
@@ -570,7 +576,14 @@ export default function QuoteWizard({ quoteId }: Props) {
                     <option value="">+ Aggiungi prodotto</option>
                     {products.map((p) => (
                       <option key={p.id} value={p.id}>
-                        {p.name} · {formatCurrency(p.salePriceInclVatCents)}
+                        {p.name} · {formatCurrency(
+                          p.salePriceExclVatCents ||
+                            netUnitPrice(
+                              p.salePriceInclVatCents,
+                              true,
+                              Number(p.vatRate),
+                            ),
+                        )} + IVA
                       </option>
                     ))}
                   </select>
@@ -586,7 +599,7 @@ export default function QuoteWizard({ quoteId }: Props) {
                     <option value="">+ Aggiungi servizio</option>
                     {services.map((s) => (
                       <option key={s.id} value={s.id}>
-                        {s.name} · {formatCurrency(s.defaultPriceCents)}
+                        {s.name} · {formatCurrency(s.defaultPriceCents)} + IVA
                       </option>
                     ))}
                   </select>
@@ -623,14 +636,20 @@ export default function QuoteWizard({ quoteId }: Props) {
                     + Testo
                   </button>
                 </div>
+                <div className="tutorial-tip" style={{ marginBottom: 14 }}>
+                  <strong>IVA automatica per beni significativi.</strong>{" "}
+                  I prodotti sono considerati beni; servizi e righe libere sono
+                  manodopera. Il 10% si applica alla manodopera e a una pari quota
+                  dei beni, mentre l'eventuale eccedenza dei beni è al 22%.
+                </div>
                 <div className="quote-line quote-line-head">
                   <span></span>
                   <span>Descrizione</span>
                   <span>Q.tà</span>
                   <span>U.M.</span>
-                  <span>Prezzo</span>
+                  <span>Imponibile</span>
                   <span>Sconto %</span>
-                  <span>IVA %</span>
+                  <span>IVA</span>
                   <span></span>
                 </div>
                 {lines.fields.map((field, i) => (
@@ -698,14 +717,15 @@ export default function QuoteWizard({ quoteId }: Props) {
                       step="0.01"
                       {...form.register(`items.${i}.discountPercent`)}
                     />
-                    <input
-                      className="input"
-                      type="number"
-                      min="0"
-                      max="100"
-                      step="0.01"
-                      {...form.register(`items.${i}.vatRate`)}
-                    />
+                    <div style={{ textAlign: "center" }}>
+                      <input
+                        type="hidden"
+                        {...form.register(`items.${i}.vatRate`)}
+                      />
+                      {!['TITOLO', 'TESTO'].includes(
+                        form.watch(`items.${i}.type`),
+                      ) && <span className="badge badge-emesso">Auto</span>}
+                    </div>
                     <button
                       type="button"
                       className="icon-btn"
@@ -991,17 +1011,31 @@ export default function QuoteWizard({ quoteId }: Props) {
           </div>
           <div className="card-body">
             <div className="summary-row">
-              <span>Imponibile</span>
+              <span>Imponibile totale</span>
               <strong>{formatCurrency(totals.subtotalCents)}</strong>
+            </div>
+            <div className="summary-row">
+              <span>di cui beni</span>
+              <strong>{formatCurrency(totals.goodsSubtotalCents)}</strong>
+            </div>
+            <div className="summary-row">
+              <span>di cui manodopera</span>
+              <strong>{formatCurrency(totals.laborSubtotalCents)}</strong>
             </div>
             <div className="summary-row">
               <span>Sconti</span>
               <strong>- {formatCurrency(totals.discountCents)}</strong>
             </div>
             <div className="summary-row">
-              <span>IVA</span>
-              <strong>{formatCurrency(totals.vatCents)}</strong>
+              <span>IVA 10% su {formatCurrency(totals.taxableAt10Cents)}</span>
+              <strong>{formatCurrency(totals.vat10Cents)}</strong>
             </div>
+            {totals.taxableAt22Cents > 0 && (
+              <div className="summary-row">
+                <span>IVA 22% su {formatCurrency(totals.taxableAt22Cents)}</span>
+                <strong>{formatCurrency(totals.vat22Cents)}</strong>
+              </div>
+            )}
             <div className="summary-row summary-total">
               <span>Totale</span>
               <strong>{formatCurrency(totals.totalCents)}</strong>

@@ -6,6 +6,7 @@ test.describe.serial("campagna QA completa SG Clima", () => {
   const customerName = `${prefix} Cliente`;
   const productCode = `${prefix}-PROD`;
   const productName = `${prefix} Climatizzatore test`;
+  const productImage = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl5P0sAAAAASUVORK5CYII=", "base64");
   const serviceName = `${prefix} Installazione test`;
   const quoteSubject = `${prefix} Preventivo filtri`;
   let customerId = 0;
@@ -109,21 +110,31 @@ test.describe.serial("campagna QA completa SG Clima", () => {
     await modal.locator('[name="salePriceExclVat"]').fill("1.000,00");
     await modal.locator('[name="purchaseCost"]').fill("600,00");
     await modal.locator('[name="quoteDescription"]').fill(`${productName}\nFornitura e posa di prova`);
+    await modal.locator('input[type="file"][accept*="image/png"]').setInputFiles({ name: "prodotto-qa.png", mimeType: "image/png", buffer: productImage });
+    await expect(modal.getByAltText(productName)).toBeVisible();
     await modal.getByRole("button", { name: "Salva prodotto" }).click();
     await expect(page.getByText("Prodotto salvato")).toBeVisible();
 
     const product = await findRecord(request, `/api/products?q=${encodeURIComponent(productCode)}`, (record) => record.internalCode === productCode);
     productId = product.id;
     expect(product.salePriceInclVatCents).toBe(122000);
+    expect(product.imagePath).toBeTruthy();
+    const storedImage = await request.get(`/api/products/${productId}/image`);
+    expect(storedImage.ok()).toBeTruthy();
+    expect(storedImage.headers()["content-type"]).toBe("image/png");
 
     const search = page.locator("#product-search");
     await search.fill(productCode);
     const row = page.locator("tbody tr").filter({ hasText: productCode });
     await row.getByRole("button", { name: "Modifica" }).click();
-    await page.locator(".modal").locator('[name="power"]').fill("12000 BTU");
-    await page.locator(".modal").getByRole("button", { name: "Salva prodotto" }).click();
+    const editModal = page.locator(".modal");
+    await editModal.locator('[name="power"]').fill("12000 BTU");
+    await editModal.locator('input[type="file"][accept*="image/png"]').setInputFiles({ name: "prodotto-qa-modificato.png", mimeType: "image/png", buffer: productImage });
+    await editModal.getByRole("button", { name: "Salva prodotto" }).click();
     await expect(page.getByText("Prodotto salvato")).toBeVisible();
-    expect((await (await request.get(`/api/products/${productId}`)).json()).power).toBe("12000 BTU");
+    const updatedProduct = await (await request.get(`/api/products/${productId}`)).json();
+    expect(updatedProduct.power).toBe("12000 BTU");
+    expect(updatedProduct.imagePath).not.toBe(product.imagePath);
   });
 
   test("creazione, ricerca e modifica servizio con prezzo zero", async ({ page, request }) => {
@@ -163,12 +174,14 @@ test.describe.serial("campagna QA completa SG Clima", () => {
     await page.locator('[name="categoryId"]').selectOption((await request.get(`/api/products/${productId}`).then((response) => response.json())).categoryId.toString());
 
     await page.getByRole("button", { name: /3\. Prodotti e servizi/ }).click();
+    const rows = page.locator(".quote-line").filter({ has: page.locator("textarea") });
+    await expect(rows).toHaveCount(0);
+    await page.getByRole("button", { name: "+ Riga libera", exact: true }).click();
     const productSelect = page.locator("select").filter({ hasText: "+ Aggiungi prodotto" }).first();
     await productSelect.selectOption(String(productId));
     const serviceSelect = page.locator("select").filter({ hasText: "+ Aggiungi servizio" }).first();
     await serviceSelect.selectOption(String(serviceId));
 
-    const rows = page.locator(".quote-line").filter({ has: page.locator("textarea") });
     await expect(rows).toHaveCount(3);
     await rows.nth(0).locator("textarea").fill(`${prefix} Riga libera`);
     await rows.nth(0).locator('input[name$=".unitPrice"]').fill("100,00");

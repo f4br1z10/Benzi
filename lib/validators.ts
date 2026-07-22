@@ -90,7 +90,7 @@ export const quoteItemSchema = z.object({
   quantity: z.coerce.number().min(0).default(1),
   unit: z.string().max(30).default("pz"),
   unitPriceCents: z.coerce.number().int().min(0).default(0),
-  priceIncludesVat: z.boolean().default(true),
+  priceIncludesVat: z.boolean().default(false),
   discountPercent: z.coerce.number().min(0).max(100).default(0),
   discountFixedCents: z.coerce.number().int().min(0).default(0),
   vatRate: z.coerce.number().min(0).max(100).default(22),
